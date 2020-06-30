@@ -23,6 +23,7 @@ public class Cell implements Drawable {
 
     public void setType(CellType type) {
         this.type = type;
+        this.type.setStyle(gameMap.getStyle());
     }
 
     public void setActor(Actor actor) {
@@ -32,8 +33,6 @@ public class Cell implements Drawable {
     public Actor getActor() {
         return actor;
     }
-
-
 
     public Cell getNeighbor(int dx, int dy) {
         return gameMap.getCell(x + dx, y + dy);

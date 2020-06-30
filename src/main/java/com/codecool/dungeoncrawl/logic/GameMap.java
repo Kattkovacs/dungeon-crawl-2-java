@@ -5,8 +5,8 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 public class GameMap {
     private int width;
     private int height;
+    private int style;
     private Cell[][] cells;
-
     private Player player;
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -19,6 +19,10 @@ public class GameMap {
             }
         }
     }
+
+    public int getStyle() { return style; }
+
+    public void setStyle(int style) { this.style = style; }
 
     public Cell getCell(int x, int y) {
         return cells[x][y];

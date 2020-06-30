@@ -23,9 +23,18 @@ public class Tiles {
     }
 
     static {
-        tileMap.put("empty", new Tile(0, 0));
-        tileMap.put("wall", new Tile(10, 17));
-        tileMap.put("floor", new Tile(2, 0));
+        tileMap.put("empty1", new Tile(0, 0));
+        tileMap.put("empty2", new Tile(0, 0));
+        tileMap.put("wall1", new Tile(10, 17));
+        tileMap.put("wall2", new Tile(6, 2));
+        tileMap.put("floor1", new Tile(2, 0));
+        tileMap.put("floor2", new Tile(5, 0));
+        tileMap.put("decor1", new Tile(3, 15));
+        tileMap.put("decor2", new Tile(14, 10));
+        tileMap.put("column1", new Tile(12, 17));
+        tileMap.put("column2", new Tile(1, 1));
+        tileMap.put("exit1", new Tile(2, 6));
+        tileMap.put("exit2", new Tile(2, 6));
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("skeleton", new Tile(29, 6));
         tileMap.put("sword", new Tile(3, 29));

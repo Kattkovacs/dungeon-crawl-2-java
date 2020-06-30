@@ -15,10 +15,12 @@ public class MapLoader {
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
+        int style = scanner.nextInt();
 
         scanner.nextLine(); // empty line
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
+        map.setStyle(style);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
@@ -33,6 +35,15 @@ public class MapLoader {
                             break;
                         case '.':
                             cell.setType(CellType.FLOOR);
+                            break;
+                        case '%':
+                            cell.setType(CellType.DECOR);
+                            break;
+                        case '|':
+                            cell.setType(CellType.COLUMN);
+                            break;
+                        case '+':
+                            cell.setType(CellType.EXIT);
                             break;
                         case 's':
                             cell.setType(CellType.FLOOR);
