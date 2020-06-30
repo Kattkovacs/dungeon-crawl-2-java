@@ -23,6 +23,9 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label attackLabel = new Label();
+    Label strLabel = new Label();
+    Label dexLabel = new Label();
     Label inventoryLabel = new Label();
 
     public static void main(String[] args) {
@@ -38,8 +41,17 @@ public class Main extends Application {
         ui.add(new Label("Health: "), 0, 0, 1, 1);
         ui.add(healthLabel, 1, 0, 1, 1);
 
-        ui.add(new Label("Inventory: "), 0, 1, 1, 1);
-        ui.add(inventoryLabel, 0, 2, 1, 1);
+        ui.add(new Label("Attack: "), 0, 1, 1, 1);
+        ui.add(attackLabel, 1, 1, 1, 1);
+
+        ui.add(new Label("Strength: "), 0, 2, 1, 1);
+        ui.add(strLabel, 1, 2, 1, 1);
+
+        ui.add(new Label("Dexterity: "), 0, 3, 1, 1);
+        ui.add(dexLabel, 1, 3, 1, 1);
+
+        ui.add(new Label("Inventory: "), 0, 4, 2, 1);
+        ui.add(inventoryLabel, 0, 5, 2, 1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -95,7 +107,10 @@ public class Main extends Application {
                 }
             }
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("" + map.getPlayer().getHealth() + " / " + map.getPlayer().getBaseHealth());
+        attackLabel.setText("" + map.getPlayer().getAttack());
+        strLabel.setText("" + map.getPlayer().getStr());
+        dexLabel.setText("" + map.getPlayer().getDex());
         inventoryLabel.setText("" + map.getPlayer().getInventoryItem(map.getPlayer().getEquipments()) +
                 map.getPlayer().getInventoryItem(map.getPlayer().getUsables()));
     }

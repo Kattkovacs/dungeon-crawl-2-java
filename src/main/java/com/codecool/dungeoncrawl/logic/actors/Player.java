@@ -18,6 +18,26 @@ public class Player extends Actor {
     }
 
     @Override
+    public int setBaseHealth() {
+        return 10;
+    }
+
+    @Override
+    public int setBaseAttack() {
+        return 4;
+    }
+
+    @Override
+    public int setBaseStr() {
+        return 5;
+    }
+
+    @Override
+    public int setBaseDex() {
+        return 5;
+    }
+
+    @Override
     public void move(int dx, int dy) {
         Cell nextCell = getCell().getNeighbor(dx, dy);
         if (nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() == null) {
@@ -25,6 +45,11 @@ public class Player extends Actor {
             nextCell.setActor(this);
             setCell(nextCell);
         }
+    }
+
+    @Override
+    public void die() {
+        // TODO
     }
 
     public void pickUpItem() {
@@ -65,10 +90,24 @@ public class Player extends Actor {
     public <K> String getInventoryItem(Map<K, Integer> inventory) {
         StringBuilder sb = new StringBuilder();
         for (K key : inventory.keySet()) {
-            sb.append(key + ": " + inventory.get(key) + "\n");
+            sb.append(key).append(": ").append(inventory.get(key)).append("\n");
         }
         return sb.toString();
     }
 
+    @Override
+    public int getAttack() {
+        return super.getAttack();
+    }
+
+    @Override
+    public int getStr() {
+        return super.getStr();
+    }
+
+    @Override
+    public int getDex() {
+        return super.getDex();
+    }
 }
 
