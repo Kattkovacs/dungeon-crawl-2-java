@@ -26,4 +26,9 @@ public abstract class Item implements Drawable {
     public void clearCell(){
         cell.setItem(null);
     }
+
+    @Override
+    public String toString() {
+        return this.getTileName();
+    }
 }
