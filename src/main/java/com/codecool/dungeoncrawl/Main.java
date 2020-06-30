@@ -68,6 +68,10 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
+            case TAB:
+                map.getPlayer().pickUpItem();
+                refresh();
+                break;
         }
     }
 

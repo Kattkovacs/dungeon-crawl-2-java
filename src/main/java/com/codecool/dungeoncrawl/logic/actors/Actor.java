@@ -14,6 +14,10 @@ public abstract class Actor implements Drawable {
 
     public abstract void move(int dx, int dy);
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public int getHealth() {
         return health;
     }
