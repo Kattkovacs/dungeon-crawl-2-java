@@ -22,4 +22,8 @@ public abstract class Item implements Drawable {
     public int getY() {
         return cell.getY();
     }
+
+    public void clearCell(){
+        cell.setItem(null);
+    }
 }
