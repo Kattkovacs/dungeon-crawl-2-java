@@ -8,6 +8,26 @@ public class Skeleton extends AIStandStill {
     }
 
     @Override
+    public int setBaseHealth() {
+        return 5;
+    }
+
+    @Override
+    public int setBaseAttack() {
+        return 2;
+    }
+
+    @Override
+    public int setBaseStr() {
+        return 2;
+    }
+
+    @Override
+    public int setBaseDex() {
+        return 2;
+    }
+
+    @Override
     public String getTileName() {
         return "skeleton";
     }

@@ -19,6 +19,6 @@ public abstract class Booster extends Item{
     }
 
     public void useBooster(Player player) {
-        player.setHealth(getHealth()+player.getHealth());
+        player.incrementHealth(getHealth()+player.getHealth());
     }
 }
