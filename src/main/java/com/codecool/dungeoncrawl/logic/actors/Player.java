@@ -44,6 +44,8 @@ public class Player extends Actor {
             getCell().setActor(null);
             nextCell.setActor(this);
             setCell(nextCell);
+        } else if (nextCell.getActor() instanceof AI) {
+            fight(nextCell.getActor());
         }
     }
 
