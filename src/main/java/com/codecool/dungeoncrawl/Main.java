@@ -29,6 +29,8 @@ public class Main extends Application {
     Label strLabel = new Label();
     Label dexLabel = new Label();
     Label inventoryLabel = new Label();
+    Label actionLabel = new Label();
+    Label enemyLabel = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -52,8 +54,15 @@ public class Main extends Application {
         ui.add(new Label("Dexterity: "), 0, 3, 1, 1);
         ui.add(dexLabel, 1, 3, 1, 1);
 
-        ui.add(new Label("Inventory: "), 0, 4, 2, 1);
-        ui.add(inventoryLabel, 0, 5, 2, 1);
+        ui.add(actionLabel, 0, 4, 2, 1);
+        actionLabel.setMinHeight(100);
+        actionLabel.setWrapText(true);
+
+        ui.add(enemyLabel, 0, 5, 2, 1);
+        enemyLabel.setMinHeight(200);
+
+        ui.add(new Label("Inventory: "), 0, 6, 2, 1);
+        ui.add(inventoryLabel, 0, 7, 2, 1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -70,6 +79,11 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        if (map.getPlayer().getHealth() <= 0){
+            map.setPlayer(null);
+            // TODO
+            // pop up - game over - new play
+        }
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
@@ -127,5 +141,7 @@ public class Main extends Application {
         dexLabel.setText("" + map.getPlayer().getDex());
         inventoryLabel.setText("" + map.getPlayer().getInventoryItem(map.getPlayer().getEquipments()) +
                 map.getPlayer().getInventoryItem(map.getPlayer().getUsables()));
+        actionLabel.setText("" + map.getPlayer().collectActions());
+        enemyLabel.setText("" + map.getPlayer().collectEnemyInfo());
     }
 }
