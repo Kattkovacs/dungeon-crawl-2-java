@@ -22,7 +22,7 @@ public class Tiles {
         }
     }
 
-    static {
+    static { //1st: col 2nd: row
         tileMap.put("empty1", new Tile(0, 0));
         tileMap.put("empty2", new Tile(0, 0));
         tileMap.put("wall1", new Tile(10, 17));
@@ -42,6 +42,10 @@ public class Tiles {
         tileMap.put("bread", new Tile(15, 28));
         tileMap.put("grave1", new Tile(0, 15));
         tileMap.put("grave2", new Tile(1, 14));
+        tileMap.put("closedDoor1", new Tile(11, 11));
+        tileMap.put("closedDoor2", new Tile(11, 11));
+        tileMap.put("openDoor1", new Tile(12, 11));
+        tileMap.put("openDoor2", new Tile(12, 11));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y, int canvasX, int canvasY) {

@@ -2,16 +2,14 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.items.Booster;
-import com.codecool.dungeoncrawl.logic.items.Equipment;
-import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.items.Usable;
+import com.codecool.dungeoncrawl.logic.items.*;
 
 import java.util.*;
 
 public class Player extends Actor {
     private Map<Equipment, Integer> equipments = new LinkedHashMap<>();
     private Map<Usable, Integer> usables = new LinkedHashMap<>();
+    private Cell actionCell;
 
     public Player(Cell cell) {
         super(cell);
@@ -40,12 +38,17 @@ public class Player extends Actor {
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = getCell().getNeighbor(dx, dy);
-        if (nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() == null) {
+        if (nextCell.canMoveThrough() && nextCell.getActor() == null) {
             getCell().setActor(null);
             nextCell.setActor(this);
             setCell(nextCell);
         } else if (nextCell.getActor() instanceof AI) {
             fight(nextCell.getActor());
+        }
+        if (nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            actionCell = nextCell;
+        } else {
+            actionCell = null;
         }
     }
 
@@ -67,6 +70,25 @@ public class Player extends Actor {
             }
             item.clearCell();
         }
+    }
+
+    public void useItem() {
+        if (actionCell != null) {
+            Key key = getKey();
+            if (key != null) {
+                actionCell.setType(CellType.OPEN_DOOR);
+                usables.remove(key);
+            }
+        }
+    }
+
+    public Key getKey() {
+        for (Usable key : usables.keySet()) {
+            if (key instanceof Key) {
+                return (Key) key;
+            }
+        }
+        return null;
     }
 
     public <K> void addToInventory(Map<K, Integer> inventory, Item item){
@@ -120,6 +142,14 @@ public class Player extends Actor {
             actionStr.append(String.format("Press TAB to use %s", item.getTileName()));
         } else if (item != null) {
             actionStr.append(String.format("Press TAB to collect %s to inventory", item.getTileName()));
+        }
+        if (actionCell != null && actionCell.getType().equals(CellType.CLOSED_DOOR)) {
+            Key key = getKey();
+            if (key != null) {
+                actionStr.append("Press TAB to open the door");
+            } else {
+                actionStr.append("You need a key to open the door");
+            }
         }
         return actionStr.toString();
     }
