@@ -3,6 +3,10 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,6 +19,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.util.Timer;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -31,6 +38,7 @@ public class Main extends Application {
     Label inventoryLabel = new Label();
     Label actionLabel = new Label();
     Label enemyLabel = new Label();
+    private Timeline timeline;
 
     public static void main(String[] args) {
         launch(args);
@@ -68,6 +76,15 @@ public class Main extends Application {
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+
+        timeline = new Timeline(new KeyFrame(
+                Duration.millis(2500),
+                ae -> {
+                    map.moveAI();
+                    refresh();
+                }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
@@ -145,4 +162,6 @@ public class Main extends Application {
         actionLabel.setText("" + map.getPlayer().collectActions());
         enemyLabel.setText("" + map.getPlayer().collectEnemyInfo());
     }
+
+
 }
