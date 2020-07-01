@@ -48,7 +48,7 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Skeleton(cell));
+                            new Skeleton(cell);
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);

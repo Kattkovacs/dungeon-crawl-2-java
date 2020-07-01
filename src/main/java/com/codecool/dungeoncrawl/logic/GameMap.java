@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.AIRandomMove;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
@@ -13,7 +14,7 @@ public class GameMap {
     private int style;
     private Cell[][] cells;
     private Player player;
-    private List<Actor> enemies;
+    private List<AIRandomMove> enemies;
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -38,7 +39,7 @@ public class GameMap {
         }
     }
 
-    public void addEnemy(Actor enemy) {
+    public void addEnemy(AIRandomMove enemy) {
         enemies.add(enemy);
     }
 
@@ -70,7 +71,7 @@ public class GameMap {
         return height;
     }
 
-    public List<Actor> getEnemies() {
+    public List<AIRandomMove> getEnemies() {
         return enemies;
     }
 
