@@ -122,17 +122,29 @@ public class Player extends Actor {
 
     @Override
     public int getAttack() {
-        return super.getAttack();
+        int calculatedAttack = super.getAttack();
+        for (Equipment key : equipments.keySet()) {
+            calculatedAttack += key.getAttack();
+        }
+        return calculatedAttack;
     }
 
     @Override
     public int getStr() {
-        return super.getStr();
+        int calculatedStr = super.getStr();
+        for (Equipment key : equipments.keySet()) {
+            calculatedStr += key.getStrength();
+        }
+        return calculatedStr;
     }
 
     @Override
     public int getDex() {
-        return super.getDex();
+        int calculatedDex = super.getDex();
+        for (Equipment key : equipments.keySet()) {
+            calculatedDex += key.getDex();
+        }
+        return calculatedDex;
     }
 
     public String collectActions(){
