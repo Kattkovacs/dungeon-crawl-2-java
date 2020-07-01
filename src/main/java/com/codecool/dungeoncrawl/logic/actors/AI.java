@@ -9,6 +9,6 @@ public abstract class AI extends Actor {
 
     @Override
     public void die() {
-        // TODO
+        getCell().setActor(null);
     }
 }

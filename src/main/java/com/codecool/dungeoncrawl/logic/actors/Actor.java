@@ -31,6 +31,17 @@ public abstract class Actor implements Drawable {
 
     public abstract void move(int dx, int dy);
 
+    public void attackEnemy(Actor enemy) {
+        enemy.decreaseHealth(this.getAttack());
+    }
+
+    public void fight(Actor enemy) {
+        attackEnemy(enemy);
+        if (enemy.getHealth() > 0) {
+            enemy.attackEnemy(this);
+        }
+    }
+
     public void incrementHealth(int health) {
         this.health += health;
         if (this.health > this.baseHealth) this.health = this.baseHealth;
