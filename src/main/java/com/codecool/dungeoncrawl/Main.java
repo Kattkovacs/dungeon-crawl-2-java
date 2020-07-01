@@ -103,6 +103,7 @@ public class Main extends Application {
                 break;
             case TAB:
                 map.getPlayer().pickUpItem();
+                map.getPlayer().useItem();
                 refresh();
                 break;
         }

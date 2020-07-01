@@ -56,4 +56,9 @@ public class Cell implements Drawable {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    public boolean canMoveThrough() {
+        return this.getType().equals(CellType.FLOOR) ||
+                this.getType().equals(CellType.OPEN_DOOR);
+    }
 }
