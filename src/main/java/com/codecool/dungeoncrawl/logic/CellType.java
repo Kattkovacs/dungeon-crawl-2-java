@@ -6,7 +6,8 @@ public enum CellType {
     WALL("wall"),
     COLUMN("column"),
     DECOR("decor"),
-    EXIT("exit");
+    EXIT("exit"),
+    GRAVE("grave");
 
     private final String tileName;
     private int style;

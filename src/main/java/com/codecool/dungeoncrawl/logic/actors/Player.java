@@ -51,7 +51,8 @@ public class Player extends Actor {
 
     @Override
     public void die() {
-        // TODO
+        getCell().setType(CellType.GRAVE);
+        getCell().setActor(null);
     }
 
     public void pickUpItem() {
@@ -110,6 +111,34 @@ public class Player extends Actor {
     @Override
     public int getDex() {
         return super.getDex();
+    }
+
+    public String collectActions(){
+        StringBuilder actionStr = new StringBuilder();
+        Item item = getCell().getItem();
+        if (item != null && item instanceof Booster) {
+            actionStr.append(String.format("Press TAB to use %s", item.getTileName()));
+        } else if (item != null) {
+            actionStr.append(String.format("Press TAB to collect %s to inventory", item.getTileName()));
+        }
+        return actionStr.toString();
+    }
+
+    public String collectEnemyInfo(){
+        StringBuilder enemyStr = new StringBuilder();
+        Actor enemy;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                Cell cell = getCell().getNeighbor(i, j);
+                if (cell.getActor() instanceof AI){
+                    enemy = cell.getActor();
+                    enemyStr.append(String.format("Enemy: %s \n",enemy.getTileName()));
+                    enemyStr.append(String.format("Health: %s / %s \n",enemy.getHealth(), enemy.getBaseHealth()));
+                    enemyStr.append(String.format("Attack: %s \n",enemy.getAttack()));
+                }
+            }
+        }
+        return enemyStr.toString();
     }
 }
 
