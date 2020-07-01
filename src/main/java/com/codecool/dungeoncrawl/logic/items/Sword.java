@@ -5,7 +5,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Sword extends Equipment {
     public Sword(Cell cell) {
         super(cell);
-        this.setStrength(10);
+        this.setAttack(2);
     }
 
     @Override

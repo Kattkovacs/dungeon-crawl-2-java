@@ -6,6 +6,7 @@ public abstract class Equipment extends Item{
     private int attack;
     private int health;
     private int strength;
+    private int dex;
 
     public Equipment(Cell cell) {
         super(cell);
@@ -37,5 +38,11 @@ public abstract class Equipment extends Item{
 
     public void useEquipment(){
 
+    }
+
+    public int getDex() { return dex; }
+
+    public void setDex(int dex) {
+        this.dex = dex;
     }
 }
