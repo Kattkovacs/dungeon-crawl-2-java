@@ -3,6 +3,9 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.util.RandomUtil;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class AIGhostMove extends AI {
 
     private int maxRange;
@@ -14,32 +17,32 @@ public abstract class AIGhostMove extends AI {
 
     @Override
     public void move(int dx, int dy) {
-        // lista az őt körülvevő lehetséges cellákról
-        // cella a pályán van?
-        // megfelel nekünk?
-        // cella hozzaadása a listához
-
         Actor player = getPlayerNearby();
         if (player != null) {
             fight(player);
         } else {
-            Cell nextCell = getCell();
+            List<Cell> freeCells = new LinkedList<>();
+            int distance = maxRange;
+            Cell nextCell;
 
-            do {
-                int x = RandomUtil.nextInt(maxRange * 2 + 1) - maxRange; //3*2=6, 6+1=7 -> 0->6 -3 = -3...3
-                int y = RandomUtil.nextInt(maxRange * 2 + 1) - maxRange;
-                if (getCell().getGameMap().isOnMap(x, y)) {
-                    nextCell = getCell().getNeighbor(x, y);
+            for (int x = -distance; x <= distance; x++) {
+                for (int y = -distance; y <= distance; y++) {
+                    if (getCell().getGameMap().isOnMap(this.getX() + x, this.getY() + y)) {
+                        nextCell = getCell().getNeighbor(x, y);
+                        if (nextCell.canMoveThrough() && nextCell.getActor() == null) {
+                            freeCells.add(nextCell);
+                        }
+                    }
                 }
-            } while (!nextCell.canMoveThrough() || nextCell.getActor() != null);
+            }
 
+            Cell destination = freeCells.get(RandomUtil.nextInt(freeCells.size()));
             getCell().setActor(null);
-            nextCell.setActor(this);
-            setCell(nextCell);
+            destination.setActor(this);
+            setCell(destination);
         }
     }
 
     protected abstract int setRange();
-
 
 }
