@@ -9,7 +9,8 @@ public enum CellType {
     EXIT("exit"),
     GRAVE("grave"),
     OPEN_DOOR("openDoor"),
-    CLOSED_DOOR("closedDoor");
+    CLOSED_DOOR("closedDoor"),
+    START_POINT("startPoint");
 
     private final String tileName;
     private int style;

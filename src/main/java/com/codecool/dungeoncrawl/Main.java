@@ -8,28 +8,29 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.Optional;
+
 
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    GameMap map = MapLoader.loadMap(1, null);
     final int CANVAS_WIDTH = 25;
     final int CANVAS_HEIGHT = 20;
     Canvas canvas = new Canvas(
@@ -52,6 +53,7 @@ public class Main extends Application {
     Separator separator3 = new Separator(Orientation.HORIZONTAL);
     Separator separator4 = new Separator(Orientation.HORIZONTAL);
     private Timeline timeline;
+    Stage dialogStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -101,7 +103,7 @@ public class Main extends Application {
         enemyDetectorSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 12));
 
         ui.add(enemyLabel, 0, 10, 2, 1);
-        enemyLabel.setMinHeight(200);
+        enemyLabel.setMinHeight(180);
         enemyLabel.setAlignment(Pos.TOP_LEFT);
 
         ui.add(separator3, 0,11, 2,1);
@@ -134,50 +136,85 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
-
         primaryStage.setTitle("Dungeon Crawler by Adventurers");
         primaryStage.show();
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        if (map.getPlayer().getHealth() <= 0){
-            map.setPlayer(null);
-            // TODO
-            // pop up - game over - new play
-        }
-        switch (keyEvent.getCode()) {
-            case UP:
-                map.getPlayer().move(0, -1);
-                refresh();
-                break;
-            case DOWN:
-                map.getPlayer().move(0, 1);
-                refresh();
-                break;
-            case LEFT:
-                map.getPlayer().move(-1, 0);
-                refresh();
-                break;
-            case RIGHT:
-                map.getPlayer().move(1,0);
-                refresh();
-                break;
-            case TAB:
-                map.getPlayer().pickUpItem();
-                map.getPlayer().useItem();
-                refresh();
-                break;
+        if (!map.getPlayer().isDied()) {
+            switch (keyEvent.getCode()) {
+                case UP:
+                    map.getPlayer().move(0, -1);
+                    refresh();
+                    break;
+                case DOWN:
+                    map.getPlayer().move(0, 1);
+                    refresh();
+                    break;
+                case LEFT:
+                    map.getPlayer().move(-1, 0);
+                    refresh();
+                    break;
+                case RIGHT:
+                    map.getPlayer().move(1,0);
+                    refresh();
+                    break;
+                case TAB:
+                    map.getPlayer().pickUpItem();
+                    map.getPlayer().useItem();
+                    refresh();
+                    break;
+            }
         }
     }
 
+
+    private void showRetryWindow() {
+        dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Label message = new Label("You have died\nWould you like to try again?");
+        message.setFont(new Font(18));
+        message.setTextAlignment(TextAlignment.CENTER);
+        Button button1 = new Button("YES");
+        button1.setFont(new Font(18));
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                map.getPlayer().setDied(false);
+                map.getPlayer().resetHealth();
+                map = MapLoader.loadMap(map.getPlayer().getMapLevel(), map.getPlayer());
+                dialogStage.close();
+                dialogStage = null;
+            }
+        });
+        Button button2 = new Button("QUIT");
+        button2.setFont(new Font(18));
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        HBox buttons = new HBox(10, button1, button2);
+        VBox vbox = new VBox(10, message, buttons);
+        vbox.setStyle("-fx-background-color: rgba(30, 30, 30, 0.3)");
+        buttons.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(30));
+        vbox.setMinWidth(300);
+        vbox.setMinHeight(200);
+        dialogStage.setScene(new Scene(vbox));
+        dialogStage.show();
+    }
+
     private void refresh() {
+        if (map.getPlayer().isDied() && dialogStage == null) {
+            showRetryWindow();
+        }
         if (map.getPlayer().isNextLevel()){
             map.getPlayer().setNextLevel(false);
-            Player savedPlayer = map.getPlayer();
-            map = MapLoader.loadMap();
-            savedPlayer.setCell(map.getPlayer().getCell());
-            map.setPlayer(savedPlayer);
+            map.getPlayer().setMapLevel(map.getPlayer().getMapLevel() + 1);
+            map = MapLoader.loadMap(map.getPlayer().getMapLevel(), map.getPlayer());
         }
+
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;
         if (startX + CANVAS_WIDTH >= map.getWidth()) startX = map.getWidth() - CANVAS_WIDTH;

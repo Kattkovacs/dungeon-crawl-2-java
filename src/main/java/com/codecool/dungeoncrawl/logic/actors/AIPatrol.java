@@ -22,7 +22,7 @@ public abstract class AIPatrol extends AI {
         if (player != null) {
             fight(player);
         } else {
-            if (step == 2) {
+            if (step == maxStep) {
                 direction++;
                 step = 0;
                 if (direction == 4) {

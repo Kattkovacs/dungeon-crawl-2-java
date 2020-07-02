@@ -13,10 +13,20 @@ public class Player extends Actor {
     private Map<Usable, Integer> usables = new LinkedHashMap<>();
     private Cell actionCell;
     private boolean nextLevel = false;
+    private boolean died = false;
+    private int mapLevel = 1;
+
+    public int getMapLevel() { return mapLevel; }
+
+    public void setMapLevel(int mapLevel) { this.mapLevel = mapLevel; }
 
     public boolean isNextLevel() {
         return nextLevel;
     }
+
+    public boolean isDied() { return died; }
+
+    public void setDied(boolean died) { this.died = died; }
 
     public void setNextLevel(boolean nextLevel) {
         this.nextLevel = nextLevel;
@@ -71,6 +81,7 @@ public class Player extends Actor {
     public void die() {
         getCell().setType(CellType.GRAVE);
         getCell().setActor(null);
+        setDied(true);
     }
 
     public void pickUpItem() {

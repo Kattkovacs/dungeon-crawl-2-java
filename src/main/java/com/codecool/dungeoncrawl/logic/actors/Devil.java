@@ -9,7 +9,7 @@ public class Devil extends AIPatrol {
 
     @Override
     protected int setMaxStep() {
-        return 4;
+        return 3;
     }
 
     @Override
