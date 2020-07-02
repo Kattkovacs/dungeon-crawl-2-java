@@ -2,9 +2,14 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Ghost extends AIRandomMove {
+public class Ghost extends AIGhostMove {
     public Ghost(Cell cell) {
         super(cell);
+    }
+
+    @Override
+    protected int setRange() {
+        return 3;
     }
 
     @Override

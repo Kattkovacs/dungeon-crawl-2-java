@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.AIRandomMove;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
@@ -27,6 +26,10 @@ public class GameMap {
                 cells[x][y] = new Cell(this, x, y, defaultCellType);
             }
         }
+    }
+
+    public boolean isOnMap(int x, int y){
+        return x >= 0 && x <= width && y >= 0 && y <= height;
     }
 
     private void removeDeadEnemy() {
