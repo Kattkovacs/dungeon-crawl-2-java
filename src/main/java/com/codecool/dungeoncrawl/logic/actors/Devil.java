@@ -2,34 +2,39 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Skeleton extends AIRandomMove {
-    public Skeleton(Cell cell) {
+public class Devil extends AIPatrol {
+    public Devil(Cell cell) {
         super(cell);
     }
 
     @Override
+    protected int setMaxStep() {
+        return 4;
+    }
+
+    @Override
     public int setBaseHealth() {
-        return 5;
+        return 10;
     }
 
     @Override
     public int setBaseAttack() {
-        return 2;
+        return 5;
     }
 
     @Override
     public int setBaseStr() {
-        return 2;
+        return 6;
     }
 
     @Override
     public int setBaseDex() {
-        return 2;
+        return 6;
     }
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return "devil";
     }
 
 

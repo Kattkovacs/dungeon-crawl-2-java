@@ -8,6 +8,11 @@ public class Pichatsu extends AIPatrol {
     }
 
     @Override
+    protected int setMaxStep() {
+        return 2;
+    }
+
+    @Override
     public int setBaseHealth() {
         return 6;
     }

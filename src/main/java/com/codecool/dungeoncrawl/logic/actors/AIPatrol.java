@@ -7,10 +7,14 @@ public abstract class AIPatrol extends AI {
 
     private Integer direction = 0;
     private Integer step = 0;
+    protected int maxStep;
 
     public AIPatrol(Cell cell) {
         super(cell);
+        maxStep = setMaxStep();
     }
+
+    protected abstract int setMaxStep();
 
     @Override
     public void move(int dx, int dy) {

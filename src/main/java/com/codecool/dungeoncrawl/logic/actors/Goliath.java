@@ -2,14 +2,14 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Goliath extends AIRandomMove {
+public class Goliath extends AIStandStill {
     public Goliath(Cell cell) {
         super(cell);
     }
 
     @Override
     public int setBaseHealth() {
-        return 6;
+        return 10;
     }
 
     @Override
@@ -19,12 +19,12 @@ public class Goliath extends AIRandomMove {
 
     @Override
     public int setBaseStr() {
-        return 2;
+        return 4;
     }
 
     @Override
     public int setBaseDex() {
-        return 2;
+        return 1;
     }
 
     @Override

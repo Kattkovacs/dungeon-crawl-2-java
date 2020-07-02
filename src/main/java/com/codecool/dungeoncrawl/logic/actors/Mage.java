@@ -2,19 +2,24 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Skeleton extends AIRandomMove {
-    public Skeleton(Cell cell) {
+public class Mage extends AIGhostMove {
+    public Mage(Cell cell) {
         super(cell);
     }
 
     @Override
+    protected int setRange() {
+        return 4;
+    }
+
+    @Override
     public int setBaseHealth() {
-        return 5;
+        return 8;
     }
 
     @Override
     public int setBaseAttack() {
-        return 2;
+        return 6;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class Skeleton extends AIRandomMove {
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return "mage";
     }
 
 
