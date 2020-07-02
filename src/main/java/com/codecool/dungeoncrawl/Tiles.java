@@ -43,7 +43,12 @@ public class Tiles {
         tileMap.put("goliath", new Tile(30, 6));
         tileMap.put("ghost", new Tile(27, 6));
         tileMap.put("pichatsu", new Tile(21, 8));
-        tileMap.put("sword", new Tile(3, 29));
+        tileMap.put("sword", new Tile(3, 31));
+        tileMap.put("armor", new Tile(1, 23));
+        tileMap.put("cheese", new Tile(18, 28));
+        tileMap.put("meat", new Tile(16, 28));
+        tileMap.put("ring", new Tile(13, 28));
+        tileMap.put("shield", new Tile(5, 26));
         tileMap.put("key", new Tile(16, 23));
         tileMap.put("bread", new Tile(15, 28));
         tileMap.put("grave1", new Tile(0, 15));

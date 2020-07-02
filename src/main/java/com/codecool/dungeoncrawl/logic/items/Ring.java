@@ -2,15 +2,16 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Bread extends Booster{
-
-    public Bread(Cell cell) {
+public class Ring extends Equipment {
+    public Ring(Cell cell) {
         super(cell);
-        this.setHealth(6);
+        this.setDex(2);
     }
 
     @Override
     public String getTileName() {
-        return "bread";
+        return "ring";
     }
+
+
 }
