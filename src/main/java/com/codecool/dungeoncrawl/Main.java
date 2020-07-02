@@ -124,7 +124,7 @@ public class Main extends Application {
         borderPane.setRight(ui);
 
         timeline = new Timeline(new KeyFrame(
-                Duration.millis(2500),
+                Duration.millis(1000),
                 ae -> {
                     map.moveAI();
                     refresh();

@@ -10,6 +10,11 @@ public abstract class AIStandStill extends AI {
     }
 
     @Override
-    public void move(int dx, int dy) {}
+    public void move(int dx, int dy) {
+        Actor player = getPlayerNearby();
+        if (player != null) {
+            fight(player);
+        }
+    }
 
 }
