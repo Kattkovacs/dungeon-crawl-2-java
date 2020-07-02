@@ -82,6 +82,10 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.addEnemy(new Ghost(cell));
                             break;
+                        case 'p':
+                            cell.setType(CellType.FLOOR);
+                            map.addEnemy(new Pichatsu(cell));
+                            break;
                         case 'b':
                             cell.setType(CellType.FLOOR);
                             map.addEnemy(new Bat(cell));
