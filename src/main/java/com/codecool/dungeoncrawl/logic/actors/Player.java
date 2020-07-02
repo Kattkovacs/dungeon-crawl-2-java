@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.GameMap;
+import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.items.*;
 
 import java.util.*;
@@ -10,6 +12,15 @@ public class Player extends Actor {
     private Map<Equipment, Integer> equipments = new LinkedHashMap<>();
     private Map<Usable, Integer> usables = new LinkedHashMap<>();
     private Cell actionCell;
+    private boolean nextLevel = false;
+
+    public boolean isNextLevel() {
+        return nextLevel;
+    }
+
+    public void setNextLevel(boolean nextLevel) {
+        this.nextLevel = nextLevel;
+    }
 
     public Player(Cell cell) {
         super(cell);
@@ -49,6 +60,10 @@ public class Player extends Actor {
             actionCell = nextCell;
         } else {
             actionCell = null;
+        }
+
+        if (nextCell.getType().equals(CellType.EXIT)) {
+            nextLevel = true;
         }
     }
 
