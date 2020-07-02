@@ -86,6 +86,18 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.addEnemy(new Pichatsu(cell));
                             break;
+                        case 'b':
+                            cell.setType(CellType.FLOOR);
+                            map.addEnemy(new Bat(cell));
+                            break;
+                        case 'm':
+                            cell.setType(CellType.FLOOR);
+                            map.addEnemy(new Mage(cell));
+                            break;
+                        case 'd':
+                            cell.setType(CellType.FLOOR);
+                            map.addEnemy(new Devil(cell));
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

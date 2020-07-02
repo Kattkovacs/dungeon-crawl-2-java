@@ -36,6 +36,9 @@ public class Tiles {
         tileMap.put("exit1", new Tile(2, 6));
         tileMap.put("exit2", new Tile(2, 6));
         tileMap.put("player", new Tile(27, 0));
+        tileMap.put("devil", new Tile(27, 2));
+        tileMap.put("bat", new Tile(26, 8));
+        tileMap.put("mage", new Tile(24, 1));
         tileMap.put("skeleton", new Tile(29, 6));
         tileMap.put("goliath", new Tile(30, 6));
         tileMap.put("ghost", new Tile(27, 6));
