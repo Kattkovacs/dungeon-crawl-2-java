@@ -173,6 +173,10 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        if (map.getPlayer().isNextLevel()){
+            map.getPlayer().setNextLevel(false);
+            map = MapLoader.loadMap();
+        }
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;
         if (startX + CANVAS_WIDTH >= map.getWidth()) startX = map.getWidth() - CANVAS_WIDTH;

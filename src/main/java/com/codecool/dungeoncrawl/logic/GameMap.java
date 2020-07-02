@@ -29,7 +29,7 @@ public class GameMap {
     }
 
     public boolean isOnMap(int x, int y){
-        return x >= 0 && x <= width && y >= 0 && y <= height;
+        return x >= 0 && x <= width-1 && y >= 0 && y <= height-1;
     }
 
     private void removeDeadEnemy() {
@@ -50,7 +50,7 @@ public class GameMap {
 
     public void moveAI() {
         removeDeadEnemy();
-        for (Actor enemy : getEnemies()) {
+        for (Actor enemy: getEnemies()) {
             enemy.move(0, 0);
         }
     }
