@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -172,7 +173,10 @@ public class Main extends Application {
     private void refresh() {
         if (map.getPlayer().isNextLevel()){
             map.getPlayer().setNextLevel(false);
+            Player savedPlayer = map.getPlayer();
             map = MapLoader.loadMap();
+            savedPlayer.setCell(map.getPlayer().getCell());
+            map.setPlayer(savedPlayer);
         }
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;

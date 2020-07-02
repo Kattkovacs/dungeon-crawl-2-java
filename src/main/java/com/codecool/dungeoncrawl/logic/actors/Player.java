@@ -136,6 +136,15 @@ public class Player extends Actor {
     }
 
     @Override
+    public int getBaseHealth() {
+        int calculatedBaseHealth = super.getBaseHealth();
+        for (Equipment key : equipments.keySet()) {
+            calculatedBaseHealth += key.getHealth();
+        }
+        return calculatedBaseHealth;
+    }
+
+    @Override
     public int getAttack() {
         int calculatedAttack = super.getAttack();
         for (Equipment key : equipments.keySet()) {

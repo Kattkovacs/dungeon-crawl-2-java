@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.items.*;
+import com.codecool.dungeoncrawl.util.RandomUtil;
 
 public abstract class AI extends Actor {
     public AI(Cell cell) {
@@ -9,6 +11,7 @@ public abstract class AI extends Actor {
 
     @Override
     public void die() {
+        dropLoot();
         getCell().setActor(null);
     }
 
@@ -26,5 +29,17 @@ public abstract class AI extends Actor {
             }
         }
         return null;
+    }
+
+    protected void dropLoot() {
+        int randomFactor = RandomUtil.nextInt(20);
+        Cell targetCell = this.getCell();
+        if (randomFactor == 0) new Armor(targetCell);
+        if (randomFactor == 1) new Bread(targetCell);
+        if (randomFactor == 2) new Cheese(targetCell);
+        if (randomFactor == 3) new Meat(targetCell);
+        if (randomFactor == 4) new Ring(targetCell);
+        if (randomFactor == 5) new Shield(targetCell);
+        if (randomFactor == 6) new Sword(targetCell);
     }
 }
