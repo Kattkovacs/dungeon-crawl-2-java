@@ -42,6 +42,10 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public void resetHealth() {
+        this.health = getBaseHealth();
+    }
+
     public void incrementHealth(int health) {
         this.health += health;
         if (this.health > this.getBaseHealth()) this.health = this.getBaseHealth();

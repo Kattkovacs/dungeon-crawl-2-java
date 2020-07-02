@@ -8,11 +8,9 @@ import java.util.Scanner;
 
 public class MapLoader {
 
-    private static int level = 1;
 
-    public static GameMap loadMap() {
+    public static GameMap loadMap(int level, Player player) {
         InputStream is = MapLoader.class.getResourceAsStream(String.format("/map%s.txt", level));
-        level++;
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -52,7 +50,13 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell));
+                            if (player != null) {
+                                player.setCell(cell);
+                                map.setPlayer(player);
+                                cell.setActor(player);
+                            } else {
+                                map.setPlayer(new Player(cell));
+                            }
                             break;
                         case 'S':
                             cell.setType(CellType.FLOOR);
