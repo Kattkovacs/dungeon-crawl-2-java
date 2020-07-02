@@ -10,6 +10,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -63,6 +65,7 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         ui.add(playersInfoSection, 0, 0, 1, 1);
+        playersInfoSection.setMinHeight(30);
         playersInfoSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 12));
 
         ui.add(new Label("Health: "), 0, 1, 1, 1);
@@ -80,27 +83,35 @@ public class Main extends Application {
         ui.add(separator1, 0,5, 2,1);
 
         ui.add(hintsSection, 0, 6, 1, 1);
-        hintsSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 12));
+        hintsSection.setMinHeight(30);
+        hintsSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 12));
+        hintsSection.setTextFill(Color.PURPLE);
 
         ui.add(actionLabel, 0, 7, 2, 1);
         actionLabel.setMinHeight(100);
         actionLabel.setWrapText(true);
+        actionLabel.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 12));
+        actionLabel.setTextFill(Color.PURPLE);
 
         ui.add(separator2, 0,8, 2,1);
 
         ui.add(enemyDetectorSection, 0, 9, 1, 1);
+        enemyDetectorSection.setMinHeight(30);
         enemyDetectorSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 12));
 
         ui.add(enemyLabel, 0, 10, 2, 1);
         enemyLabel.setMinHeight(200);
+        enemyLabel.setAlignment(Pos.TOP_LEFT);
 
         ui.add(separator3, 0,11, 2,1);
 
         ui.add(inventorySection, 0, 12, 2, 1);
+        inventorySection.setMinHeight(30);
         inventorySection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 12));
 
         ui.add(inventoryLabel, 0, 13, 2, 1);
-        inventoryLabel.setMinHeight(190);
+        inventoryLabel.setMinHeight(140);
+        inventoryLabel.setAlignment(Pos.TOP_LEFT);
 
         ui.add(separator4, 0,14, 2,1);
 
