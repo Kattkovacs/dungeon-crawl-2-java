@@ -169,14 +169,17 @@ public class Player extends Actor {
     public String collectEnemyInfo(){
         StringBuilder enemyStr = new StringBuilder();
         Actor enemy;
+        int enemyCounter = 1;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 Cell cell = getCell().getNeighbor(i, j);
                 if (cell.getActor() instanceof AI){
                     enemy = cell.getActor();
-                    enemyStr.append(String.format("Enemy: %s \n",enemy.getTileName()));
+                    enemyStr.append(String.format("[%d]Enemy: %s \n", enemyCounter, enemy.getTileName()));
                     enemyStr.append(String.format("Health: %s / %s \n",enemy.getHealth(), enemy.getBaseHealth()));
                     enemyStr.append(String.format("Attack: %s \n",enemy.getAttack()));
+                    enemyStr.append(String.format("--------------------- \n"));
+                    enemyCounter += 1;
                 }
             }
         }
