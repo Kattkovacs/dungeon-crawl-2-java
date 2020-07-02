@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.AIRandomMove;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
@@ -14,7 +13,7 @@ public class GameMap {
     private int style;
     private Cell[][] cells;
     private Player player;
-    private List<AIRandomMove> enemies;
+    private List<Actor> enemies;
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -29,17 +28,34 @@ public class GameMap {
         }
     }
 
-    public void moveAI() {
-        for (Actor enemy : getEnemies()) {
-            if (enemy.getHealth() <= 0) {
-                enemies.remove(enemy);
-            } else {
-                enemy.move(0, 0);
+    public boolean isOnMap(int x, int y){
+        return x >= 0 && x <= width && y >= 0 && y <= height;
+    }
+
+    private void removeDeadEnemy() {
+        while (true) {
+            boolean remove = false;
+            for (Actor enemy : getEnemies()) {
+                if (enemy.getHealth() <= 0) {
+                    enemies.remove(enemy);
+                    remove = true;
+                    break;
+                }
+            }
+            if (!remove) {
+                break;
             }
         }
     }
 
-    public void addEnemy(AIRandomMove enemy) {
+    public void moveAI() {
+        removeDeadEnemy();
+        for (Actor enemy : getEnemies()) {
+            enemy.move(0, 0);
+        }
+    }
+
+    public void addEnemy(Actor enemy) {
         enemies.add(enemy);
     }
 
@@ -71,7 +87,7 @@ public class GameMap {
         return height;
     }
 
-    public List<AIRandomMove> getEnemies() {
+    public List<Actor> getEnemies() {
         return enemies;
     }
 

@@ -11,4 +11,20 @@ public abstract class AI extends Actor {
     public void die() {
         getCell().setActor(null);
     }
+
+    protected Actor getPlayerNearby() {
+        for (int i = -1; i < 2; i++) {
+            Cell cell = getCell().getNeighbor(i, 0);
+            if (cell.getActor() instanceof Player) {
+                return cell.getActor();
+            }
+        }
+        for (int j = -1; j < 2; j++) {
+            Cell cell = getCell().getNeighbor(0, j);
+            if (cell.getActor() instanceof Player) {
+                return cell.getActor();
+            }
+        }
+        return null;
+    }
 }
