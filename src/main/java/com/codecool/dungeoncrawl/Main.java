@@ -61,8 +61,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //TODO: Find some good Favicon and change the parameter in the next line
-        Image icon = new Image("/tiles.png");
+        Image icon = new Image("/dungeonIcon.png");
         primaryStage.getIcons().add(icon);
 
         GridPane ui = new GridPane();
