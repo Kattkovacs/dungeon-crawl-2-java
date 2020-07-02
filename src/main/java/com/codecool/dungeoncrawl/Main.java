@@ -85,7 +85,6 @@ public class Main extends Application {
         ui.add(hintsSection, 0, 6, 1, 1);
         hintsSection.setMinHeight(30);
         hintsSection.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 12));
-        hintsSection.setTextFill(Color.PURPLE);
 
         ui.add(actionLabel, 0, 7, 2, 1);
         actionLabel.setMinHeight(100);
