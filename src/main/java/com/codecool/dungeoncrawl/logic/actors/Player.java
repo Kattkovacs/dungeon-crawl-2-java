@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.items.*;
 import java.util.*;
 
 public class Player extends Actor {
+    private String name;
     private Map<Equipment, Integer> equipments = new LinkedHashMap<>();
     private Map<Usable, Integer> usables = new LinkedHashMap<>();
     private Cell actionCell;
@@ -34,6 +35,19 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
+    }
+
+    public Player(Cell cell, String name) {
+        super(cell);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -125,6 +139,8 @@ public class Player extends Actor {
             inventory.putIfAbsent(key, 1);
         }
     }
+
+
 
     public String getTileName() {
         return "player";

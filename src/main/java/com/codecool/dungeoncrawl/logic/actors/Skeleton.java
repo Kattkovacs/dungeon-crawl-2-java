@@ -32,5 +32,4 @@ public class Skeleton extends AIRandomMove {
         return "skeleton";
     }
 
-
 }
