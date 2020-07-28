@@ -35,6 +35,7 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
+        this.setName("Anonymous");
     }
 
     public Player(Cell cell, String name) {
