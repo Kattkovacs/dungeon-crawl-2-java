@@ -22,6 +22,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             statement.setInt(1, state.getCurrentMap());
             statement.setInt(2, playerId);
             statement.executeUpdate();
+            //Read answer from DataBase
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             state.setId(resultSet.getInt(1));

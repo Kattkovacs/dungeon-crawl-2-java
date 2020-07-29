@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.CellModel;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -32,6 +34,18 @@ public class GameDatabaseManager {
         playerDao.add(playerModel);
         GameState gameStateModel = new GameState(map.getPlayer().getMapLevel(), playerModel.getId());
         gameStateDao.add(gameStateModel, playerModel.getId());
+
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
+                String actorName = cell.getActor() != null ? cell.getActor().getTileName() : null;
+                String itemName = cell.getItem() != null ? cell.getItem().getTileName() : null;
+                System.out.println("gameStateId:" + gameStateModel.getId());
+                CellModel cellModel = new CellModel(gameStateModel.getId(), x, y, actorName,
+                        itemName, cell.getType().getTileName());
+                cellDao.add(cellModel, cellModel.getStateId());
+            }
+        }
     }
 
     private DataSource connect() throws SQLException {

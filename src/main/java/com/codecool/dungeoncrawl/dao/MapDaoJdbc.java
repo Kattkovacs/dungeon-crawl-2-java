@@ -13,7 +13,7 @@ public class MapDaoJdbc implements MapDao{
     }
 
     @Override
-    public void add(MapModel map) {
+    public void add(MapModel map, int gameStateId) {
 
     }
 
