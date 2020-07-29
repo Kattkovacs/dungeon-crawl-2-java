@@ -14,7 +14,7 @@ public class CellDaoJdbc implements CellDao{
     }
 
     @Override
-    public void add(CellModel cell, int gameStateId) {
+    public void add(CellModel cell) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO cell (state_id, x, y, actor, item, cell_type) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -32,6 +32,30 @@ public class CellDaoJdbc implements CellDao{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void addAll(List<CellModel> cells) {
+        try (Connection conn = dataSource.getConnection()) {
+            for (CellModel cellModel : cells) {
+                String sql = "INSERT INTO cell (state_id, x, y, actor, item, cell_type) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                statement.setInt(1, cellModel.getStateId());
+                statement.setInt(2, cellModel.getX());
+                statement.setInt(3, cellModel.getY());
+                statement.setString(4, cellModel.getActor());
+                statement.setString(5, cellModel.getItem());
+                statement.setString(6, cellModel.getCellType());
+                statement.executeUpdate();
+                //Read answer from DataBase
+                ResultSet resultSet = statement.getGeneratedKeys();
+                resultSet.next();
+                cellModel.setId(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

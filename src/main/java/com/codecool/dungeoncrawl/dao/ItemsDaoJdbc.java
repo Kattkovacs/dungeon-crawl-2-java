@@ -15,6 +15,7 @@ public class ItemsDaoJdbc implements ItemsDao {
     @Override
     public void add(ItemsModel items, int gameStateId) {
 
+
     }
 
     @Override
