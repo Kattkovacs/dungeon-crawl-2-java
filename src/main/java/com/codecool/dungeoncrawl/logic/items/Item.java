@@ -34,4 +34,21 @@ public abstract class Item implements Drawable {
         return this.getTileName();
     }
 
+    public static Item itemFactory(String itemName, Cell cell) {
+        switch (itemName) {
+            case "armor":
+                return new Armor(cell);
+            case "key":
+                return new Key(cell);
+            case "ring":
+                return new Ring(cell);
+            case "shield":
+                return new Shield(cell);
+            case "sword":
+                return new Sword(cell);
+            default:
+                throw new RuntimeException("Unknown item!" + itemName);
+        }
+    }
+
 }

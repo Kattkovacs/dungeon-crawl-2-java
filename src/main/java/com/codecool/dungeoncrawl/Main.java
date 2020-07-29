@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.GameState;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -182,7 +183,21 @@ public class Main extends Application {
                 case S:
                     //Player player = map.getPlayer();
                     //dbManager.savePlayer(player);
+                    timeline.stop();
                     dbManager.saveGameState(map);
+                    timeline.play();
+                    break;
+                case L:
+                    timeline.stop();
+                    GameState gameState = dbManager.getGameState();
+                    map = MapLoader.loadSavedMap(
+                            gameState,
+                            dbManager.getMapModel(gameState.getId()),
+                            dbManager.getCellModels(gameState.getId()),
+                            dbManager.getPlayerModel(gameState.getPlayerId()),
+                            dbManager.getItemsModels(gameState.getId())
+                    );
+                    timeline.play();
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();

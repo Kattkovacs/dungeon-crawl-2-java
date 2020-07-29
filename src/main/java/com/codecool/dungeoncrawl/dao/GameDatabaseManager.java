@@ -3,13 +3,16 @@ package com.codecool.dungeoncrawl.dao;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.model.CellModel;
-import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.model.*;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -38,6 +41,7 @@ public class GameDatabaseManager {
         gameStateDao.add(gameStateModel, playerModel.getId());
         System.out.println("State saved successfully");
 
+        List<CellModel> cells = new ArrayList<>();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
@@ -45,10 +49,50 @@ public class GameDatabaseManager {
                 String itemName = cell.getItem() != null ? cell.getItem().getTileName() : null;
                 CellModel cellModel = new CellModel(gameStateModel.getId(), x, y, actorName,
                         itemName, cell.getType().getDefaultTileName());
-                cellDao.add(cellModel, cellModel.getStateId());
+                cells.add(cellModel);
             }
         }
-        System.out.println("Tiles saved successfully");
+        cellDao.addAll(cells);
+
+        List<ItemsModel> items = new ArrayList<>();
+        Map<Item, Integer> equipments = map.getPlayer().getEquipments();
+        Map<Item, Integer> usables = map.getPlayer().getUsables();
+
+        for (Item item : equipments.keySet()) {
+            items.add(new ItemsModel(gameStateModel.getId(), item.getTileName(), equipments.get(item)));
+        }
+
+        for (Item item : usables.keySet()) {
+            items.add(new ItemsModel(gameStateModel.getId(), item.getTileName(), usables.get(item)));
+        }
+        itemsDao.addAll(items);
+
+        System.out.println("Items saved successfully");
+
+        //map.getPlayer().getMapLevel()
+        MapModel mapModel = new MapModel(map.getWidth(), map.getHeight(), map.getStyle(), gameStateModel.getId());
+        mapDao.add(mapModel, map.getPlayer().getMapLevel());
+        System.out.println("Map saved successfully");
+    }
+
+    public GameState getGameState() {
+        return gameStateDao.get(1);
+    }
+
+    public MapModel getMapModel(int stateId) {
+        return mapDao.get(stateId);
+    }
+
+    public List<CellModel> getCellModels(int stateId) {
+        return cellDao.get(stateId);
+    }
+
+    public PlayerModel getPlayerModel(int id) {
+        return playerDao.get(id);
+    }
+
+    public List<ItemsModel> getItemsModels(int stateId) {
+        return itemsDao.get(stateId);
     }
 
     private DataSource connect() throws SQLException {

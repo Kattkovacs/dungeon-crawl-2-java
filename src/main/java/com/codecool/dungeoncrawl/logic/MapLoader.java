@@ -1,9 +1,13 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.dao.GameStateDao;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
+import com.codecool.dungeoncrawl.model.*;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -26,6 +30,43 @@ public class MapLoader {
                 if (x < line.length()) {
                     cellFactory(x, y, map, String.valueOf(line.charAt(x)), player);
                 }
+            }
+        }
+        return map;
+    }
+
+    //What we need for loadSaveMap
+    //width, height >> GameMap map = new GameMap(width, height, CellType.EMPTY);
+    //level >> map.setStyle(level);
+    //player >> INFO: calling the original 'loadmap()' happens with MapLoader.loadmap(1, null); from Main
+    //different data from each cell (like: x, y, cellType, actorName, itemName)
+    public static GameMap loadSavedMap(GameState gameState,
+                                       MapModel mapModel,
+                                       List<CellModel> cellModels,
+                                       PlayerModel playerModel,
+                                       List<ItemsModel> itemsModels) {
+        System.out.println("Gamestate player id: " + gameState.getPlayerId());
+
+        GameMap map = new GameMap(mapModel.getWidth(), mapModel.getHeight(), CellType.EMPTY);
+        map.setStyle(mapModel.getStyle());
+
+        for(CellModel cellModel : cellModels) {
+            String actorName = cellModel.getActor();
+            String itemName = cellModel.getItem();
+
+            if (actorName != null) {
+                cellFactory(cellModel.getX(), cellModel.getY(), map, actorName, null);
+            }
+            if (itemName != null) {
+                cellFactory(cellModel.getX(), cellModel.getY(), map, itemName, null);
+            }
+            cellFactory(cellModel.getX(), cellModel.getY(), map, cellModel.getCellType(), null);
+        }
+
+        Player player = map.getPlayer();
+        for (ItemsModel itemsModel: itemsModels) {
+            for (int i = 0; i < itemsModel.getCount(); i++) {
+                player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
             }
         }
         return map;
@@ -96,6 +137,9 @@ public class MapLoader {
             case "closedDoor":
             case "c":
                 cell.setType(CellType.CLOSED_DOOR);
+                break;
+            case "openDoor":
+                cell.setType(CellType.OPEN_DOOR);
                 break;
             case "goliath":
             case "g":
