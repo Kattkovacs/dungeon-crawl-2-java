@@ -32,20 +32,23 @@ public class GameDatabaseManager {
     public void saveGameState(GameMap map) {
         PlayerModel playerModel = new PlayerModel(map.getPlayer());
         playerDao.add(playerModel);
+        System.out.println("Player saved successfully");
+
         GameState gameStateModel = new GameState(map.getPlayer().getMapLevel(), playerModel.getId());
         gameStateDao.add(gameStateModel, playerModel.getId());
+        System.out.println("State saved successfully");
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 String actorName = cell.getActor() != null ? cell.getActor().getTileName() : null;
                 String itemName = cell.getItem() != null ? cell.getItem().getTileName() : null;
-                System.out.println("gameStateId:" + gameStateModel.getId());
                 CellModel cellModel = new CellModel(gameStateModel.getId(), x, y, actorName,
-                        itemName, cell.getType().getTileName());
+                        itemName, cell.getType().getDefaultTileName());
                 cellDao.add(cellModel, cellModel.getStateId());
             }
         }
+        System.out.println("Tiles saved successfully");
     }
 
     private DataSource connect() throws SQLException {

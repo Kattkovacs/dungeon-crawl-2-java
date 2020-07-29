@@ -23,6 +23,10 @@ public enum CellType {
         return tileName + getStyle();
     }
 
+    public String getDefaultTileName() {
+        return tileName;
+    }
+
     public int getStyle() { return style; }
 
     public void setStyle(int style) { this.style = style; }
