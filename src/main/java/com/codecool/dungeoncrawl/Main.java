@@ -10,6 +10,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.util.Optional;
@@ -60,6 +62,7 @@ public class Main extends Application {
     Separator separator4 = new Separator(Orientation.HORIZONTAL);
     private Timeline timeline;
     Stage dialogStage;
+    Stage reloadStage;
     GameDatabaseManager dbManager;
 
 
@@ -197,6 +200,7 @@ public class Main extends Application {
                             dbManager.getPlayerModel(gameState.getPlayerId()),
                             dbManager.getItemsModels(gameState.getId())
                     );
+                    showReloadWindow(gameState);
                     timeline.play();
                     break;
                 case TAB:
@@ -243,6 +247,50 @@ public class Main extends Application {
         vbox.setMinHeight(200);
         dialogStage.setScene(new Scene(vbox));
         dialogStage.show();
+    }
+
+    private void showReloadWindow(GameState gameState) {
+        reloadStage = new Stage();
+        reloadStage.setTitle("Dungeon Crawler by Adventurers - RELOAD");
+//        reloadStage.initModality(Modality.WINDOW_MODAL);  //It is works as a 'pop up' window by default...
+        var tableView = new TableView<>();
+
+        var stateIdColumn = new TableColumn<>("state id");
+        stateIdColumn.setMinWidth(150);
+        //TODO: We should set the Values, something like in next line:
+//        stateIdColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+
+        var currentMapColumn = new TableColumn<>("current map");
+        currentMapColumn.setMinWidth(150);
+        //TODO: We should set the Values, something like in next line:
+//        currentMapColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+
+        var savedAtColumn = new TableColumn<>("saved at");
+        savedAtColumn.setMinWidth(320);
+        //TODO: We should set the Values, something like in next line:
+//        savedAtColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+
+        tableView.getColumns().add(stateIdColumn);
+        tableView.getColumns().add(currentMapColumn);
+        tableView.getColumns().add(savedAtColumn);
+
+        //Create reloadButton and binding methods in case of click
+        var reloadButton = new Button("Reload Game");
+        reloadButton.setOnAction(actionEvent -> {
+            //TODO: We should write the actonEvent here
+        });
+
+        //Create box which will use as main part of the Window
+        var box = new VBox();
+        box.setSpacing(5);
+        box.setPadding(new Insets(10, 10, 10, 10));
+        var scene = new Scene(box, 640, 480);
+        var elements = box.getChildren();
+        elements.addAll(tableView, reloadButton);
+
+        reloadStage.setScene(scene);
+        reloadStage.show();
+
     }
 
     private void refresh() {
