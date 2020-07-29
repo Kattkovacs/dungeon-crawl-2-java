@@ -10,8 +10,8 @@ import java.util.*;
 
 public class Player extends Actor {
     private String name;
-    private Map<Equipment, Integer> equipments = new LinkedHashMap<>();
-    private Map<Usable, Integer> usables = new LinkedHashMap<>();
+    private final Map<Item, Integer> equipments = new HashMap<>();
+    private final Map<Item, Integer> usables = new LinkedHashMap<>();
     private Cell actionCell;
     private boolean nextLevel = false;
     private boolean died = false;
@@ -102,12 +102,12 @@ public class Player extends Actor {
     public void pickUpItem() {
         Item item = getCell().getItem();
         if (item != null) {
-            if (item instanceof Equipment) {
+            if (item instanceof Booster) {
+                ((Booster) item).useBooster(this);
+            } else if (item instanceof Equipment) {
                 addToInventory(equipments, item);
             } else if (item instanceof Usable) {
                 addToInventory(usables, item);
-            } else if (item instanceof Booster) {
-                ((Booster) item).useBooster(this);
             }
             item.clearCell();
         }
@@ -124,7 +124,7 @@ public class Player extends Actor {
     }
 
     public Key getKey() {
-        for (Usable key : usables.keySet()) {
+        for (Item key : usables.keySet()) {
             if (key instanceof Key) {
                 return (Key) key;
             }
@@ -132,26 +132,33 @@ public class Player extends Actor {
         return null;
     }
 
-    public <K> void addToInventory(Map<K, Integer> inventory, Item item){
-        K key = (K) item;
-        if (inventory.containsKey(key)) {
-            inventory.replace (key, inventory.get(key) + 1);
+    public void addToInventory(Map<Item, Integer> inventory, Item item){
+        System.out.println();
+        Item sameItem = getSameInInventory(item, inventory.keySet());
+        if (sameItem != null) {
+            inventory.replace(sameItem, inventory.get(sameItem) + 1);
         } else {
-            inventory.putIfAbsent(key, 1);
+            inventory.putIfAbsent(item, 1);
         }
     }
 
+    public Item getSameInInventory(Item newItem, Set<Item> items) {
+        for (Item item: items) {
+            if (item.getTileName().equals(newItem.getTileName())) return item;
+        }
+        return null;
+    }
 
 
     public String getTileName() {
         return "player";
     }
 
-    public Map<Equipment, Integer> getEquipments() {
+    public Map<Item, Integer> getEquipments() {
         return equipments;
     }
 
-    public Map<Usable, Integer> getUsables() {
+    public Map<Item, Integer> getUsables() {
         return usables;
     }
 
@@ -166,8 +173,9 @@ public class Player extends Actor {
     @Override
     public int getBaseHealth() {
         int calculatedBaseHealth = super.getBaseHealth();
-        for (Equipment key : equipments.keySet()) {
-            calculatedBaseHealth += key.getHealth();
+        for (Item key : equipments.keySet()) {
+            Equipment item = (Equipment) key;
+            calculatedBaseHealth += item.getHealth();
         }
         return calculatedBaseHealth;
     }
@@ -175,8 +183,9 @@ public class Player extends Actor {
     @Override
     public int getAttack() {
         int calculatedAttack = super.getAttack();
-        for (Equipment key : equipments.keySet()) {
-            calculatedAttack += key.getAttack();
+        for (Item key : equipments.keySet()) {
+            Equipment item = (Equipment) key;
+            calculatedAttack += item.getAttack();
         }
         return calculatedAttack;
     }
@@ -184,8 +193,9 @@ public class Player extends Actor {
     @Override
     public int getStr() {
         int calculatedStr = super.getStr();
-        for (Equipment key : equipments.keySet()) {
-            calculatedStr += key.getStrength();
+        for (Item key : equipments.keySet()) {
+            Equipment item = (Equipment) key;
+            calculatedStr += item.getStrength();
         }
         return calculatedStr;
     }
@@ -193,8 +203,9 @@ public class Player extends Actor {
     @Override
     public int getDex() {
         int calculatedDex = super.getDex();
-        for (Equipment key : equipments.keySet()) {
-            calculatedDex += key.getDex();
+        for (Item key : equipments.keySet()) {
+            Equipment item = (Equipment) key;
+            calculatedDex += item.getDex();
         }
         return calculatedDex;
     }

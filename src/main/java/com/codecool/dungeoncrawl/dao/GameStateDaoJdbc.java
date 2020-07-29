@@ -1,17 +1,34 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameStateDaoJdbc implements GameStateDao {
-    @Override
-    public void add(GameState state) {
 
+    private final DataSource dataSource;
+
+    public GameStateDaoJdbc(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @Override
+    public void add(GameState state, int playerId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO game_state (current_map, player_id) VALUES (?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, state.getCurrentMap());
+            statement.setInt(2, playerId);
+            statement.executeUpdate();
+            //Read answer from DataBase
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            state.setId(resultSet.getInt(1));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
