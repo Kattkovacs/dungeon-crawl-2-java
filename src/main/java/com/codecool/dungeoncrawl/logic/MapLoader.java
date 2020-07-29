@@ -4,10 +4,7 @@ import com.codecool.dungeoncrawl.dao.GameStateDao;
 import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
-import com.codecool.dungeoncrawl.model.CellModel;
-import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.MapModel;
-import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.model.*;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,7 +43,8 @@ public class MapLoader {
     public static GameMap loadSavedMap(GameState gameState,
                                        MapModel mapModel,
                                        List<CellModel> cellModels,
-                                       PlayerModel playerModel) {
+                                       PlayerModel playerModel,
+                                       List<ItemsModel> itemsModels) {
         System.out.println("Gamestate player id: " + gameState.getPlayerId());
 
         GameMap map = new GameMap(mapModel.getWidth(), mapModel.getHeight(), CellType.EMPTY);
@@ -63,6 +61,13 @@ public class MapLoader {
                 cellFactory(cellModel.getX(), cellModel.getY(), map, itemName, null);
             }
             cellFactory(cellModel.getX(), cellModel.getY(), map, cellModel.getCellType(), null);
+        }
+
+        Player player = map.getPlayer();
+        for (ItemsModel itemsModel: itemsModels) {
+            for (int i = 0; i < itemsModel.getCount(); i++) {
+                player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
+            }
         }
         return map;
     }

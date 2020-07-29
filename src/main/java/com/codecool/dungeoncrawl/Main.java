@@ -194,7 +194,8 @@ public class Main extends Application {
                             gameState,
                             dbManager.getMapModel(gameState.getId()),
                             dbManager.getCellModels(gameState.getId()),
-                            dbManager.getPlayerModel(gameState.getPlayerId())
+                            dbManager.getPlayerModel(gameState.getPlayerId()),
+                            dbManager.getItemsModels(gameState.getId())
                     );
                     timeline.play();
                     break;

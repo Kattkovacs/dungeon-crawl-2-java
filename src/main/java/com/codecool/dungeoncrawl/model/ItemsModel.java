@@ -11,6 +11,9 @@ public class ItemsModel extends BaseModel{
         this.count = count;
     }
 
+    public ItemsModel() {
+    }
+
     public int getStateId() { return stateId; }
 
     public void setStateId(int stateId) { this.stateId = stateId; }

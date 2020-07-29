@@ -69,7 +69,8 @@ public class GameDatabaseManager {
 
         System.out.println("Items saved successfully");
 
-        MapModel mapModel = new MapModel(map.getWidth(), map.getHeight(), map.getStyle(), map.getPlayer().getMapLevel());
+        //map.getPlayer().getMapLevel()
+        MapModel mapModel = new MapModel(map.getWidth(), map.getHeight(), map.getStyle(), gameStateModel.getId());
         mapDao.add(mapModel, map.getPlayer().getMapLevel());
         System.out.println("Map saved successfully");
     }
@@ -88,6 +89,10 @@ public class GameDatabaseManager {
 
     public PlayerModel getPlayerModel(int id) {
         return playerDao.get(id);
+    }
+
+    public List<ItemsModel> getItemsModels(int stateId) {
+        return itemsDao.get(stateId);
     }
 
     private DataSource connect() throws SQLException {

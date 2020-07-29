@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.model.ItemsModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDaoJdbc implements ItemsDao {
@@ -47,8 +48,25 @@ public class ItemsDaoJdbc implements ItemsDao {
     }
 
     @Override
-    public ItemsModel get(int id) {
-        return null;
+    public List<ItemsModel> get(int stateId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM items WHERE state_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, stateId);
+            ResultSet resultSet = statement.executeQuery();
+            List<ItemsModel> itemsModels = new ArrayList<>();
+
+            while (resultSet.next()) {
+                ItemsModel itemsModel = new ItemsModel();
+                itemsModel.setStateId(resultSet.getInt(2));
+                itemsModel.setName(resultSet.getString(3));
+                itemsModel.setCount(resultSet.getInt(4));
+                itemsModels.add(itemsModel);
+            }
+            return itemsModels;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading author with id: " + e);
+        }
     }
 
     @Override

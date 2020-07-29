@@ -100,7 +100,10 @@ public class Player extends Actor {
     }
 
     public void pickUpItem() {
-        Item item = getCell().getItem();
+        loadItem(getCell().getItem());
+    }
+
+    public void loadItem(Item item) {
         if (item != null) {
             if (item instanceof Booster) {
                 ((Booster) item).useBooster(this);
