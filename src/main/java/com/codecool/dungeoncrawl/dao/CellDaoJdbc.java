@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.model.CellModel;
+import com.codecool.dungeoncrawl.model.MapModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CellDaoJdbc implements CellDao{
@@ -64,8 +66,24 @@ public class CellDaoJdbc implements CellDao{
     }
 
     @Override
-    public CellModel get(int id) {
-        return null;
+    public List<CellModel> get(int state_id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM cell WHERE state_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, state_id);
+            ResultSet resultSet = statement.executeQuery();
+            List<CellModel> cellModels = new ArrayList<>();
+
+            while (resultSet.next()) {
+                CellModel cellModel = new CellModel(state_id, resultSet.getInt(3),
+                        resultSet.getInt(4), resultSet.getString(5),
+                        resultSet.getString(6), resultSet.getString(7));
+                cellModels.add(cellModel);
+            }
+            return cellModels;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading author with id: " + e);
+        }
     }
 
     @Override

@@ -74,6 +74,22 @@ public class GameDatabaseManager {
         System.out.println("Map saved successfully");
     }
 
+    public GameState getGameState() {
+        return gameStateDao.get(1);
+    }
+
+    public MapModel getMapModel(int stateId) {
+        return mapDao.get(stateId);
+    }
+
+    public List<CellModel> getCellModels(int stateId) {
+        return cellDao.get(stateId);
+    }
+
+    public PlayerModel getPlayerModel(int id) {
+        return playerDao.get(id);
+    }
+
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         String dbName = System.getenv("PSQL_DB_NAME");

@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.MapModel;
 
 import javax.sql.DataSource;
@@ -39,7 +40,21 @@ public class MapDaoJdbc implements MapDao{
 
     @Override
     public MapModel get(int id) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM map WHERE state_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            MapModel mapModel = new MapModel(resultSet.getInt(3), resultSet.getInt(4),
+                    resultSet.getInt(5), resultSet.getInt(2));
+            mapModel.setId(id);
+            return mapModel;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading author with id: " + id, e);
+        }
     }
 
     @Override
