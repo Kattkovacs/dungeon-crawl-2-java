@@ -24,112 +24,140 @@ public class MapLoader {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
                 if (x < line.length()) {
-                    Cell cell = map.getCell(x, y);
-                    switch (line.charAt(x)) {
-                        case ' ':
-                            cell.setType(CellType.EMPTY);
-                            break;
-                        case '#':
-                            cell.setType(CellType.WALL);
-                            break;
-                        case '.':
-                            cell.setType(CellType.FLOOR);
-                            break;
-                        case '%':
-                            cell.setType(CellType.DECOR);
-                            break;
-                        case '|':
-                            cell.setType(CellType.COLUMN);
-                            break;
-                        case '+':
-                            cell.setType(CellType.EXIT);
-                            break;
-                        case 's':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Skeleton(cell));
-                            break;
-                        case '@':
-                            cell.setType(CellType.FLOOR);
-                            if (player != null) {
-                                player.setCell(cell);
-                                map.setPlayer(player);
-                                cell.setActor(player);
-                            } else {
-                                map.setPlayer(new Player(cell));
-                            }
-                            break;
-                        case 'S':
-                            cell.setType(CellType.FLOOR);
-                            new Sword(cell);
-                            break;
-                        case 'K':
-                            cell.setType(CellType.FLOOR);
-                            new Key(cell);
-                            break;
-                        case 'B':
-                            cell.setType(CellType.FLOOR);
-                            new Bread(cell);
-                            break;
-                        case 'G':
-                            cell.setType(CellType.GRAVE);
-                            break;
-                        case 'c':
-                            cell.setType(CellType.CLOSED_DOOR);
-                            break;
-                        case 'g':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Goliath(cell));
-                            break;
-                        case 'h':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Ghost(cell));
-                            break;
-                        case 'p':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Pichatsu(cell));
-                            break;
-                        case 'b':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Bat(cell));
-                            break;
-                        case 'm':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Mage(cell));
-                            break;
-                        case 'd':
-                            cell.setType(CellType.FLOOR);
-                            map.addEnemy(new Devil(cell));
-                            break;
-                        case 'A':
-                            cell.setType(CellType.FLOOR);
-                            new Armor(cell);
-                            break;
-                        case 'C':
-                            cell.setType(CellType.FLOOR);
-                            new Cheese(cell);
-                            break;
-                        case 'M':
-                            cell.setType(CellType.FLOOR);
-                            new Meat(cell);
-                            break;
-                        case 'R':
-                            cell.setType(CellType.FLOOR);
-                            new Ring(cell);
-                            break;
-                        case 'H':
-                            cell.setType(CellType.FLOOR);
-                            new Shield(cell);
-                            break;
-                        case '0':
-                            cell.setType(CellType.START_POINT);
-                            break;
-                        default:
-                            throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
-                    }
+                    cellFactory(x, y, map, String.valueOf(line.charAt(x)), player);
                 }
             }
         }
         return map;
     }
 
+    public static void cellFactory(int x, int y, GameMap map, String cellElement, Player player) {
+        Cell cell = map.getCell(x, y);
+        switch (cellElement) {
+            case "empty":
+            case " ":
+                cell.setType(CellType.EMPTY);
+                break;
+            case "wall":
+            case "#":
+                cell.setType(CellType.WALL);
+                break;
+            case "floor":
+            case ".":
+                cell.setType(CellType.FLOOR);
+                break;
+            case "decor":
+            case "%":
+                cell.setType(CellType.DECOR);
+                break;
+            case "column":
+            case "|":
+                cell.setType(CellType.COLUMN);
+                break;
+            case "exit":
+            case "+":
+                cell.setType(CellType.EXIT);
+                break;
+            case "skeleton":
+            case "s":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Skeleton(cell));
+                break;
+            case "player":
+            case "@":
+                cell.setType(CellType.FLOOR);
+                if (player != null) {
+                    player.setCell(cell);
+                    map.setPlayer(player);
+                    cell.setActor(player);
+                } else {
+                    map.setPlayer(new Player(cell));
+                }
+                break;
+            case "sword":
+            case "S":
+                cell.setType(CellType.FLOOR);
+                new Sword(cell);
+                break;
+            case "key":
+            case "K":
+                cell.setType(CellType.FLOOR);
+                new Key(cell);
+                break;
+            case "bread":
+            case "B":
+                cell.setType(CellType.FLOOR);
+                new Bread(cell);
+                break;
+            case "grave":
+            case "G":
+                cell.setType(CellType.GRAVE);
+                break;
+            case "closedDoor":
+            case "c":
+                cell.setType(CellType.CLOSED_DOOR);
+                break;
+            case "goliath":
+            case "g":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Goliath(cell));
+                break;
+            case "ghost":
+            case "h":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Ghost(cell));
+                break;
+            case "pichatsu":
+            case "p":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Pichatsu(cell));
+                break;
+            case "bat":
+            case "b":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Bat(cell));
+                break;
+            case "mage":
+            case "m":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Mage(cell));
+                break;
+            case "devil":
+            case "d":
+                cell.setType(CellType.FLOOR);
+                map.addEnemy(new Devil(cell));
+                break;
+            case "armor":
+            case "A":
+                cell.setType(CellType.FLOOR);
+                new Armor(cell);
+                break;
+            case "cheese":
+            case "C":
+                cell.setType(CellType.FLOOR);
+                new Cheese(cell);
+                break;
+            case "meat":
+            case "M":
+                cell.setType(CellType.FLOOR);
+                new Meat(cell);
+                break;
+            case "ring":
+            case "R":
+                cell.setType(CellType.FLOOR);
+                new Ring(cell);
+                break;
+            case "shield":
+            case "H":
+                cell.setType(CellType.FLOOR);
+                new Shield(cell);
+                break;
+            case "startPoint":
+            case "0":
+                cell.setType(CellType.START_POINT);
+                break;
+            default:
+                throw new RuntimeException("Unrecognized character: '" + cellElement + "'");
+        }
+    }
 }
