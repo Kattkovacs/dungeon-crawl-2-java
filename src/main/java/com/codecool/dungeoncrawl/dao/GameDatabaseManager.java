@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.dao;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.*;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -52,8 +54,20 @@ public class GameDatabaseManager {
         }
         cellDao.addAll(cells);
 
-//        Parameters for TileModel: int stateId, String name, int count
-        System.out.println("Tiles saved successfully");
+        List<ItemsModel> items = new ArrayList<>();
+        Map<Item, Integer> equipments = map.getPlayer().getEquipments();
+        Map<Item, Integer> usables = map.getPlayer().getUsables();
+
+        for (Item item : equipments.keySet()) {
+            items.add(new ItemsModel(gameStateModel.getId(), item.getTileName(), equipments.get(item)));
+        }
+
+        for (Item item : usables.keySet()) {
+            items.add(new ItemsModel(gameStateModel.getId(), item.getTileName(), usables.get(item)));
+        }
+        itemsDao.addAll(items);
+
+        System.out.println("Items saved successfully");
 
         MapModel mapModel = new MapModel(map.getWidth(), map.getHeight(), map.getStyle(), map.getPlayer().getMapLevel());
         mapDao.add(mapModel, map.getPlayer().getMapLevel());
