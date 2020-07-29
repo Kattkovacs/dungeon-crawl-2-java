@@ -180,8 +180,9 @@ public class Main extends Application {
                     refresh();
                     break;
                 case S:
-                    Player player = map.getPlayer();
-                    dbManager.savePlayer(player);
+                    //Player player = map.getPlayer();
+                    //dbManager.savePlayer(player);
+                    dbManager.saveGameState(map);
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();
