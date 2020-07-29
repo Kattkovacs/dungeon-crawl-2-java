@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl.logic.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.HashMap;
+
 public abstract class Item implements Drawable {
     private Cell cell;
 
@@ -31,4 +33,5 @@ public abstract class Item implements Drawable {
     public String toString() {
         return this.getTileName();
     }
+
 }
