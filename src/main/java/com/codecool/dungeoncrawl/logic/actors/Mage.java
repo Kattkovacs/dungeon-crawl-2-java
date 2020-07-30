@@ -14,7 +14,7 @@ public class Mage extends AIGhostMove {
 
     @Override
     public int setBaseHealth() {
-        return 8;
+        return 20;
     }
 
     @Override

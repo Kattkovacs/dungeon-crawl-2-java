@@ -1,10 +1,16 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.util.Log;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Tiles {
@@ -65,5 +71,16 @@ public class Tiles {
         Tile tile = tileMap.get(d.getTileName());
         context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
                 canvasX * TILE_WIDTH, canvasY * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+    }
+
+    public static void drawLog(GraphicsContext context) {
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        int counter = 0;
+        for (Log log: Main.logs) {
+            context.setFill(log.getColor());
+            context.fillText(log.getMessage(), 400, 100 + counter * 40);
+            counter++;
+        }
     }
 }

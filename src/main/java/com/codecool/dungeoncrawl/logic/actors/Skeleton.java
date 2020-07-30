@@ -9,7 +9,7 @@ public class Skeleton extends AIRandomMove {
 
     @Override
     public int setBaseHealth() {
-        return 5;
+        return 10;
     }
 
     @Override
