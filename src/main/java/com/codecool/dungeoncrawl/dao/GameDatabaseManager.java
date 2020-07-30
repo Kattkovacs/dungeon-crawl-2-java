@@ -79,6 +79,10 @@ public class GameDatabaseManager {
         return gameStateDao.get(1);
     }
 
+    public List<GameState> getGameStateList() {
+        return gameStateDao.getAll();
+    }
+
     public MapModel getMapModel(int stateId) {
         return mapDao.get(stateId);
     }

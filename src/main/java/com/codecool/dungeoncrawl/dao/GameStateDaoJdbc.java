@@ -4,7 +4,10 @@ import com.codecool.dungeoncrawl.model.GameState;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameStateDaoJdbc implements GameStateDao {
 
@@ -48,14 +51,30 @@ public class GameStateDaoJdbc implements GameStateDao {
             }
             GameState gameState = new GameState(resultSet.getInt(2), resultSet.getInt(4));
             gameState.setId(id);
+            gameState.setSavedAt(resultSet.getDate(3));
             return gameState;
         } catch (SQLException e) {
-            throw new RuntimeException("Error while reading author with id: " + id, e);
+            throw new RuntimeException("Error while reading game state with id: " + id, e);
         }
     }
 
     @Override
     public List<GameState> getAll() {
-        return null;
+        List<GameState> gameStateList = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM game_state";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                GameState gameState = new GameState(resultSet.getInt(2), resultSet.getInt(4));
+                gameStateList.add(gameState);
+                gameState.setId(resultSet.getInt(1));
+                gameState.setSavedAt(resultSet.getDate(3));
+            }
+            return gameStateList;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading game states", e);
+        }
     }
 }

@@ -11,6 +11,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,6 +22,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -33,9 +37,14 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import java.sql.SQLException;
+
+import static javafx.collections.FXCollections.*;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap(1, null);
@@ -63,6 +72,7 @@ public class Main extends Application {
     private Timeline timeline;
     Stage dialogStage;
     Stage reloadStage;
+    Stage reloadStage2;
     GameDatabaseManager dbManager;
 
 
@@ -192,6 +202,9 @@ public class Main extends Application {
                     break;
                 case L:
                     timeline.stop();
+                    List<GameState> gameStateList = dbManager.getGameStateList();
+                    showReloadWindow(gameStateList);
+
                     GameState gameState = dbManager.getGameState();
                     map = MapLoader.loadSavedMap(
                             gameState,
@@ -200,7 +213,6 @@ public class Main extends Application {
                             dbManager.getPlayerModel(gameState.getPlayerId()),
                             dbManager.getItemsModels(gameState.getId())
                     );
-                    showReloadWindow(gameState);
                     timeline.play();
                     break;
                 case TAB:
@@ -249,26 +261,30 @@ public class Main extends Application {
         dialogStage.show();
     }
 
-    private void showReloadWindow(GameState gameState) {
+    private void showReloadWindow(List<GameState> savedGameStates) {
         reloadStage = new Stage();
         reloadStage.setTitle("Dungeon Crawler by Adventurers - RELOAD");
 //        reloadStage.initModality(Modality.WINDOW_MODAL);  //It is works as a 'pop up' window by default...
-        var tableView = new TableView<>();
 
-        var stateIdColumn = new TableColumn<>("state id");
-        stateIdColumn.setMinWidth(150);
-        //TODO: We should set the Values, something like in next line:
-//        stateIdColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+        //Create a new empty ObservableList and feed with the content of the incoming List
+        ObservableList<GameState> displayList = observableArrayList();
+        for(GameState gameState : savedGameStates) {
+            displayList.add(gameState);
+        }
 
-        var currentMapColumn = new TableColumn<>("current map");
-        currentMapColumn.setMinWidth(150);
-        //TODO: We should set the Values, something like in next line:
-//        currentMapColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+        var tableView = new TableView<GameState>(displayList);
 
-        var savedAtColumn = new TableColumn<>("saved at");
-        savedAtColumn.setMinWidth(320);
-        //TODO: We should set the Values, something like in next line:
-//        savedAtColumn.setCellValueFactory(Callback<TableColumn.CellDataFeatures<S, T>, ObservableValue<T>> var1);
+        var stateIdColumn = new TableColumn<GameState, Integer>("state id");
+        stateIdColumn.setMinWidth(70);
+        stateIdColumn.setCellValueFactory(new PropertyValueFactory<GameState, Integer>("id"));
+
+        var currentMapColumn = new TableColumn<GameState, Integer>("current map");
+        currentMapColumn.setMinWidth(110);
+        currentMapColumn.setCellValueFactory(new PropertyValueFactory<GameState, Integer>("currentMap"));
+
+        var savedAtColumn = new TableColumn<GameState, Date>("saved at");
+        savedAtColumn.setMinWidth(440);
+        savedAtColumn.setCellValueFactory(new PropertyValueFactory<GameState, Date>("savedAt"));
 
         tableView.getColumns().add(stateIdColumn);
         tableView.getColumns().add(currentMapColumn);
