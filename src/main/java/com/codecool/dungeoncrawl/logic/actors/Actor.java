@@ -1,7 +1,14 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.util.Log;
+import com.codecool.dungeoncrawl.util.RandomUtil;
+import javafx.scene.paint.Color;
+
+import java.util.List;
+import java.util.Random;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
@@ -32,7 +39,22 @@ public abstract class Actor implements Drawable {
     public abstract void move(int dx, int dy);
 
     public void attackEnemy(Actor enemy) {
-        enemy.decreaseHealth(this.getAttack());
+        int max = enemy.getDex() > this.getDex() ? enemy.getDex() + enemy.getDex() / 4 : this.getDex() + enemy.getDex() / 4;
+        boolean hit = RandomUtil.nextInt(max) <= this.getDex();
+        boolean critical = RandomUtil.nextInt(max) * 2 <= this.getDex() / 2;
+        String message;
+        if (hit) {
+            int damage = this.getAttack() + this.getStr() / enemy.getStr();
+            if (critical) damage = damage * 2;
+            message = "" + this.getTileName() + " cause " + damage +
+                    (critical ? " CRITICAL dmg" : " dmg");
+            enemy.decreaseHealth(damage);
+            Main.logs.add(new Log(message, Color.DARKORANGE));
+        } else {
+            message = "" + this.getTileName() + " miss!";
+            Main.logs.add(new Log(message, Color.YELLOW));
+        }
+
     }
 
     public void fight(Actor enemy) {

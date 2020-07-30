@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.util.Log;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -31,6 +32,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import java.sql.SQLException;
@@ -61,7 +64,7 @@ public class Main extends Application {
     private Timeline timeline;
     Stage dialogStage;
     GameDatabaseManager dbManager;
-
+    public static List<Log> logs = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -136,6 +139,9 @@ public class Main extends Application {
                 Duration.millis(1000),
                 ae -> {
                     map.moveAI();
+                    for (Log log: logs) {
+                        log.decreaseVisiblePeriod();
+                    }
                     refresh();
                 }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -281,6 +287,8 @@ public class Main extends Application {
             }
             canvasX++;
         }
+        Tiles.drawLog(context);
+
         healthLabel.setText("" + map.getPlayer().getHealth() + " / " + map.getPlayer().getBaseHealth());
         attackLabel.setText("" + map.getPlayer().getAttack());
         strLabel.setText("" + map.getPlayer().getStr());

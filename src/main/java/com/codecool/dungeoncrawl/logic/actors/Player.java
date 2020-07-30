@@ -178,7 +178,7 @@ public class Player extends Actor {
         int calculatedBaseHealth = super.getBaseHealth();
         for (Item key : equipments.keySet()) {
             Equipment item = (Equipment) key;
-            calculatedBaseHealth += item.getHealth();
+            calculatedBaseHealth += item.getHealth() * equipments.get(key);
         }
         return calculatedBaseHealth;
     }
@@ -188,7 +188,7 @@ public class Player extends Actor {
         int calculatedAttack = super.getAttack();
         for (Item key : equipments.keySet()) {
             Equipment item = (Equipment) key;
-            calculatedAttack += item.getAttack();
+            calculatedAttack += item.getAttack() * equipments.get(key);
         }
         return calculatedAttack;
     }
@@ -198,7 +198,7 @@ public class Player extends Actor {
         int calculatedStr = super.getStr();
         for (Item key : equipments.keySet()) {
             Equipment item = (Equipment) key;
-            calculatedStr += item.getStrength();
+            calculatedStr += item.getStrength() * equipments.get(key);
         }
         return calculatedStr;
     }
@@ -208,7 +208,7 @@ public class Player extends Actor {
         int calculatedDex = super.getDex();
         for (Item key : equipments.keySet()) {
             Equipment item = (Equipment) key;
-            calculatedDex += item.getDex();
+            calculatedDex += item.getDex() * equipments.get(key);
         }
         return calculatedDex;
     }
