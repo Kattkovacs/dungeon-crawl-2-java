@@ -75,8 +75,12 @@ public class GameDatabaseManager {
         System.out.println("Map saved successfully");
     }
 
-    public GameState getGameState() {
-        return gameStateDao.get(1);
+    public GameState getGameState(int id) {
+        return gameStateDao.get(id);
+    }
+
+    public List<GameState> getGameStateList() {
+        return gameStateDao.getAll();
     }
 
     public MapModel getMapModel(int stateId) {
