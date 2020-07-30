@@ -9,7 +9,7 @@ public class Bat extends AIRandomMove {
 
     @Override
     public int setBaseHealth() {
-        return 8;
+        return 12;
     }
 
     @Override

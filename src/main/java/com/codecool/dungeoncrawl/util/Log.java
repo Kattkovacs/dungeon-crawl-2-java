@@ -17,7 +17,7 @@ public class Log {
 
     public void decreaseVisiblePeriod() {
         this.visibleForPeriod--;
-        if (this.visibleForPeriod <= 0) Main.logs.remove(this);
+        if (this.visibleForPeriod <= 0) Main.logsToClear.add(this);
     }
 
     public String getMessage() {

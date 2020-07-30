@@ -53,7 +53,7 @@ public class Player extends Actor {
 
     @Override
     public int setBaseHealth() {
-        return 10;
+        return 20;
     }
 
     @Override

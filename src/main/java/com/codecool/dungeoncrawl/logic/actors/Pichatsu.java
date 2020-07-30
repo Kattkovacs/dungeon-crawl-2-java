@@ -14,7 +14,7 @@ public class Pichatsu extends AIPatrol {
 
     @Override
     public int setBaseHealth() {
-        return 6;
+        return 19;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Devil extends AIPatrol {
 
     @Override
     public int setBaseHealth() {
-        return 10;
+        return 18;
     }
 
     @Override

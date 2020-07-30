@@ -65,6 +65,7 @@ public class Main extends Application {
     Stage dialogStage;
     GameDatabaseManager dbManager;
     public static List<Log> logs = new ArrayList<>();
+    public static List<Log> logsToClear = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -142,6 +143,10 @@ public class Main extends Application {
                     for (Log log: logs) {
                         log.decreaseVisiblePeriod();
                     }
+                    for (Log log: logsToClear) {
+                        logs.remove(log);
+                    }
+                    logsToClear.clear();
                     refresh();
                 }));
         timeline.setCycleCount(Animation.INDEFINITE);
