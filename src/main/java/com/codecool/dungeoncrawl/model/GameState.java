@@ -10,6 +10,10 @@ public class GameState extends BaseModel {
     private List<String> discoveredMaps = new ArrayList<>();
     private int playerId;
 
+    public GameState(int currentMap) {
+        this.currentMap = currentMap;
+    }
+
     public GameState(int currentMap, int playerId) {
         this.currentMap = currentMap;
         this.playerId = playerId;

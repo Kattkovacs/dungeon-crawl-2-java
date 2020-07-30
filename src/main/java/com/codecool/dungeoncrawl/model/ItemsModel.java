@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.model;
 
+import com.codecool.dungeoncrawl.logic.actors.actorsimplementations.Player;
+
 public class ItemsModel extends BaseModel{
     private int stateId;
     private String name;
@@ -12,6 +14,11 @@ public class ItemsModel extends BaseModel{
     }
 
     public ItemsModel() {
+    }
+
+    public ItemsModel(String name, int count) {
+        this.name = name;
+        this.count = count;
     }
 
     public int getStateId() { return stateId; }

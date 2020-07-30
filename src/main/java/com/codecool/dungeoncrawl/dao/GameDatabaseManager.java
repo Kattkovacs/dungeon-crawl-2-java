@@ -1,11 +1,14 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.dao.implementations.*;
 import com.codecool.dungeoncrawl.dao.interfaces.*;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.*;
+import com.codecool.dungeoncrawl.util.Log;
+import javafx.scene.paint.Color;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -72,6 +75,7 @@ public class GameDatabaseManager {
         MapModel mapModel = new MapModel(map.getWidth(), map.getHeight(), map.getStyle(), gameStateModel.getId());
         mapDao.add(mapModel, map.getPlayer().getMapLevel());
         System.out.println("Map saved successfully");
+        Main.logs.add(new Log("Game saved successfuly", Color.GREEN));
     }
 
     public GameState getGameState(int id) {
