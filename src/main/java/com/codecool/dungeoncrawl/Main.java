@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,6 @@ public class Main extends Application {
     private Timeline timeline;
     Stage dialogStage;
     Stage reloadStage;
-    Stage reloadStage2;
     GameDatabaseManager dbManager;
 
 
@@ -205,15 +205,15 @@ public class Main extends Application {
                     List<GameState> gameStateList = dbManager.getGameStateList();
                     showReloadWindow(gameStateList);
 
-                    GameState gameState = dbManager.getGameState();
-                    map = MapLoader.loadSavedMap(
-                            gameState,
-                            dbManager.getMapModel(gameState.getId()),
-                            dbManager.getCellModels(gameState.getId()),
-                            dbManager.getPlayerModel(gameState.getPlayerId()),
-                            dbManager.getItemsModels(gameState.getId())
-                    );
-                    timeline.play();
+//                    GameState gameState = dbManager.getGameState();
+//                    map = MapLoader.loadSavedMap(
+//                            gameState,
+//                            dbManager.getMapModel(gameState.getId()),
+//                            dbManager.getCellModels(gameState.getId()),
+//                            dbManager.getPlayerModel(gameState.getPlayerId()),
+//                            dbManager.getItemsModels(gameState.getId())
+//                    );
+//                    timeline.play();
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();
@@ -282,9 +282,9 @@ public class Main extends Application {
         currentMapColumn.setMinWidth(110);
         currentMapColumn.setCellValueFactory(new PropertyValueFactory<GameState, Integer>("currentMap"));
 
-        var savedAtColumn = new TableColumn<GameState, Date>("saved at");
+        var savedAtColumn = new TableColumn<GameState, Timestamp>("saved at");
         savedAtColumn.setMinWidth(440);
-        savedAtColumn.setCellValueFactory(new PropertyValueFactory<GameState, Date>("savedAt"));
+        savedAtColumn.setCellValueFactory(new PropertyValueFactory<GameState, Timestamp>("savedAt"));
 
         tableView.getColumns().add(stateIdColumn);
         tableView.getColumns().add(currentMapColumn);
@@ -293,7 +293,18 @@ public class Main extends Application {
         //Create reloadButton and binding methods in case of click
         var reloadButton = new Button("Reload Game");
         reloadButton.setOnAction(actionEvent -> {
-            //TODO: We should write the actonEvent here
+            int stateId = tableView.getSelectionModel().getSelectedItem().getId();
+            GameState gameState = dbManager.getGameState(stateId);
+            map = MapLoader.loadSavedMap(
+                    gameState,
+                    dbManager.getMapModel(gameState.getId()),
+                    dbManager.getCellModels(gameState.getId()),
+                    dbManager.getPlayerModel(gameState.getPlayerId()),
+                    dbManager.getItemsModels(gameState.getId())
+            );
+            reloadStage.close();
+            timeline.play();
+
         });
 
         //Create box which will use as main part of the Window

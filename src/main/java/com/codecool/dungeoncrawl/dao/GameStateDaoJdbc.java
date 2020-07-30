@@ -51,7 +51,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             }
             GameState gameState = new GameState(resultSet.getInt(2), resultSet.getInt(4));
             gameState.setId(id);
-            gameState.setSavedAt(resultSet.getDate(3));
+            gameState.setSavedAt(resultSet.getTimestamp(3));
             return gameState;
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading game state with id: " + id, e);
@@ -70,7 +70,7 @@ public class GameStateDaoJdbc implements GameStateDao {
                 GameState gameState = new GameState(resultSet.getInt(2), resultSet.getInt(4));
                 gameStateList.add(gameState);
                 gameState.setId(resultSet.getInt(1));
-                gameState.setSavedAt(resultSet.getDate(3));
+                gameState.setSavedAt(resultSet.getTimestamp(3));
             }
             return gameStateList;
         } catch (SQLException e) {
