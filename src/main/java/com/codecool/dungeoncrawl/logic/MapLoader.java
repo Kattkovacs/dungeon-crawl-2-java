@@ -35,11 +35,6 @@ public class MapLoader {
         return map;
     }
 
-    //What we need for loadSaveMap
-    //width, height >> GameMap map = new GameMap(width, height, CellType.EMPTY);
-    //level >> map.setStyle(level);
-    //player >> INFO: calling the original 'loadmap()' happens with MapLoader.loadmap(1, null); from Main
-    //different data from each cell (like: x, y, cellType, actorName, itemName)
     public static GameMap loadSavedMap(GameState gameState,
                                        MapModel mapModel,
                                        List<CellModel> cellModels,

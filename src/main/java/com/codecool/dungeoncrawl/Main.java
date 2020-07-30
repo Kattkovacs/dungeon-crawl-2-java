@@ -194,8 +194,6 @@ public class Main extends Application {
                     refresh();
                     break;
                 case S:
-                    //Player player = map.getPlayer();
-                    //dbManager.savePlayer(player);
                     timeline.stop();
                     dbManager.saveGameState(map);
                     timeline.play();
@@ -204,16 +202,6 @@ public class Main extends Application {
                     timeline.stop();
                     List<GameState> gameStateList = dbManager.getGameStateList();
                     showReloadWindow(gameStateList);
-
-//                    GameState gameState = dbManager.getGameState();
-//                    map = MapLoader.loadSavedMap(
-//                            gameState,
-//                            dbManager.getMapModel(gameState.getId()),
-//                            dbManager.getCellModels(gameState.getId()),
-//                            dbManager.getPlayerModel(gameState.getPlayerId()),
-//                            dbManager.getItemsModels(gameState.getId())
-//                    );
-//                    timeline.play();
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();
@@ -223,7 +211,6 @@ public class Main extends Application {
             }
         }
     }
-
 
     private void showRetryWindow() {
         dialogStage = new Stage();
@@ -264,7 +251,6 @@ public class Main extends Application {
     private void showReloadWindow(List<GameState> savedGameStates) {
         reloadStage = new Stage();
         reloadStage.setTitle("Dungeon Crawler by Adventurers - RELOAD");
-//        reloadStage.initModality(Modality.WINDOW_MODAL);  //It is works as a 'pop up' window by default...
 
         //Create a new empty ObservableList and feed with the content of the incoming List
         ObservableList<GameState> displayList = observableArrayList();
