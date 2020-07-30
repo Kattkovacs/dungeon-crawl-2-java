@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.model;
 
+import com.codecool.dungeoncrawl.logic.GameMap;
+
 public class MapModel extends BaseModel{
 
     private int width;
@@ -12,6 +14,12 @@ public class MapModel extends BaseModel{
         this.height = height;
         this.style = style;
         this.stateId = stateId;
+    }
+
+    public MapModel(GameMap map) {
+        this.width = map.getWidth();
+        this.height = map.getHeight();
+        this.style = map.getStyle();
     }
 
     public int getWidth() { return width; }

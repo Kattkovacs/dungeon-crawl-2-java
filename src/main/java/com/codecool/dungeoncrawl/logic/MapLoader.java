@@ -1,9 +1,12 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.actors.actorsimplementations.*;
 import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.logic.items.itemsimplementations.*;
 import com.codecool.dungeoncrawl.model.*;
+import com.codecool.dungeoncrawl.util.Log;
+import javafx.scene.paint.Color;
 
 import java.io.InputStream;
 import java.util.List;
@@ -39,7 +42,6 @@ public class MapLoader {
                                        List<CellModel> cellModels,
                                        PlayerModel playerModel,
                                        List<ItemsModel> itemsModels) {
-        System.out.println("Gamestate player id: " + gameState.getPlayerId());
 
         GameMap map = new GameMap(mapModel.getWidth(), mapModel.getHeight(), CellType.EMPTY);
         map.setStyle(mapModel.getStyle());
@@ -66,6 +68,7 @@ public class MapLoader {
                 player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
             }
         }
+        Main.logs.add(new Log("Game loaded successfuly", Color.GREEN));
         return map;
     }
 

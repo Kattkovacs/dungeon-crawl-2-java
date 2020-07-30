@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.model;
 
+import com.codecool.dungeoncrawl.logic.Cell;
+
 public class CellModel extends BaseModel{
 
     private int stateId;
@@ -16,6 +18,16 @@ public class CellModel extends BaseModel{
         this.actor = actor;
         this.item = item;
         this.cellType = cellType;
+    }
+
+    public CellModel(Cell cell) {
+        this.x = cell.getX();
+        this.y = cell.getY();
+        String actorName = cell.getActor() != null ? cell.getActor().getTileName() : null;
+        String itemName = cell.getItem() != null ? cell.getItem().getTileName() : null;
+        this.actor = actorName;
+        this.item = itemName;
+        this.cellType = cell.getType().getDefaultTileName();
     }
 
     public int getStateId() { return stateId; }

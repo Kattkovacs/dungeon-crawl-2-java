@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameExportManager;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -29,9 +30,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
@@ -63,6 +67,7 @@ public class Main extends Application {
     Separator separator3 = new Separator(Orientation.HORIZONTAL);
     Separator separator4 = new Separator(Orientation.HORIZONTAL);
     private Timeline timeline;
+    Stage primaryStage;
     Stage dialogStage;
     Stage reloadStage;
     GameDatabaseManager dbManager;
@@ -75,6 +80,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
         Image icon = new Image("/dungeonIcon.png");
         primaryStage.getIcons().add(icon);
 
@@ -202,6 +208,23 @@ public class Main extends Application {
                     timeline.stop();
                     List<GameState> gameStateList = dbManager.getGameStateList();
                     showReloadWindow(gameStateList);
+                    break;
+                case E:
+                    timeline.stop();
+                    GameExportManager exportManager = new GameExportManager(map);
+                    exportManager.exportGame();
+                    timeline.play();
+                    break;
+                case I:
+                    timeline.stop();
+                    GameExportManager importManager = new GameExportManager(map);
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Open exported game file");
+                    File file = fileChooser.showOpenDialog(primaryStage);
+                    if (file != null) {
+                        map = importManager.importGame(file);
+                    }
+                    timeline.play();
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();
