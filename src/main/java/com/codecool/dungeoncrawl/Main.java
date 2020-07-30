@@ -73,7 +73,7 @@ public class Main extends Application {
     GameDatabaseManager dbManager;
     public static List<Log> logs = new ArrayList<>();
     public static List<Log> logsToClear = new ArrayList<>();
-
+    public static boolean switcher = true;
     public static void main(String[] args) {
         launch(args);
     }
@@ -155,6 +155,7 @@ public class Main extends Application {
                         logs.remove(log);
                     }
                     logsToClear.clear();
+                    switcher = !switcher;
                     refresh();
                 }));
         timeline.setCycleCount(Animation.INDEFINITE);

@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.Main;
+
 public enum CellType {
     EMPTY("empty"),
     FLOOR("floor"),
@@ -20,6 +22,9 @@ public enum CellType {
     }
 
     public String getTileName() {
+        if (this.getDefaultTileName().equals("decor")) {
+            return tileName + getStyle() + (Main.switcher ? "a" : "b");
+        }
         return tileName + getStyle();
     }
 
