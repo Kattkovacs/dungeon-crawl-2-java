@@ -1,7 +1,8 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.actors.actorsimplementations.*;
 import com.codecool.dungeoncrawl.logic.items.*;
+import com.codecool.dungeoncrawl.logic.items.itemsimplementations.*;
 import com.codecool.dungeoncrawl.model.*;
 
 import java.io.InputStream;
