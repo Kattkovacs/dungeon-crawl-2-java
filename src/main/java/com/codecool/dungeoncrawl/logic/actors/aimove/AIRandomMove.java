@@ -5,6 +5,9 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.aimove.AI;
 import com.codecool.dungeoncrawl.util.RandomUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AIRandomMove extends AI {
 
     public AIRandomMove(Cell cell) {
@@ -17,26 +20,21 @@ public abstract class AIRandomMove extends AI {
         if (player != null) {
             fight(player);
         } else {
-            Cell nextCell;
+            Cell nextCell = this.getCell();
+            List<Cell> directions = new ArrayList<>();
+            directions.add(getCell().getNeighbor(0, 1));
+            directions.add(getCell().getNeighbor(0, -1));
+            directions.add(getCell().getNeighbor(-1, 0));
+            directions.add(getCell().getNeighbor(1, 0));
             do {
-                nextCell = getCell();
-                int direction = RandomUtil.nextInt(4);
-                switch (direction) {
-                    case 0:
-                        nextCell = getCell().getNeighbor(0, 1);
-                        break;
-                    case 1:
-                        nextCell = getCell().getNeighbor(0, -1);
-                        break;
-                    case 2:
-                        nextCell = getCell().getNeighbor(-1, 0);
-                        break;
-                    case 3:
-                        nextCell = getCell().getNeighbor(1, 0);
-                        break;
+                int randomIndex = RandomUtil.nextInt(directions.size());
+                Cell investigateCell = directions.get(randomIndex);
+                if (investigateCell.canMoveThrough() && investigateCell.getActor() == null) {
+                    nextCell = investigateCell;
+                } else {
+                    directions.remove(randomIndex);
                 }
-            } while (!nextCell.canMoveThrough() || nextCell.getActor() != null);
-
+            } while (nextCell == this.getCell() && directions.size() > 0);
             getCell().setActor(null);
             nextCell.setActor(this);
             setCell(nextCell);
