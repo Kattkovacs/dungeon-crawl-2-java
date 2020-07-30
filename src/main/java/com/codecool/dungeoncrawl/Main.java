@@ -10,6 +10,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,6 +22,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -29,11 +34,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import java.sql.SQLException;
+
+import static javafx.collections.FXCollections.*;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap(1, null);
@@ -60,6 +72,7 @@ public class Main extends Application {
     Separator separator4 = new Separator(Orientation.HORIZONTAL);
     private Timeline timeline;
     Stage dialogStage;
+    Stage reloadStage;
     GameDatabaseManager dbManager;
 
 
@@ -189,15 +202,18 @@ public class Main extends Application {
                     break;
                 case L:
                     timeline.stop();
-                    GameState gameState = dbManager.getGameState();
-                    map = MapLoader.loadSavedMap(
-                            gameState,
-                            dbManager.getMapModel(gameState.getId()),
-                            dbManager.getCellModels(gameState.getId()),
-                            dbManager.getPlayerModel(gameState.getPlayerId()),
-                            dbManager.getItemsModels(gameState.getId())
-                    );
-                    timeline.play();
+                    List<GameState> gameStateList = dbManager.getGameStateList();
+                    showReloadWindow(gameStateList);
+
+//                    GameState gameState = dbManager.getGameState();
+//                    map = MapLoader.loadSavedMap(
+//                            gameState,
+//                            dbManager.getMapModel(gameState.getId()),
+//                            dbManager.getCellModels(gameState.getId()),
+//                            dbManager.getPlayerModel(gameState.getPlayerId()),
+//                            dbManager.getItemsModels(gameState.getId())
+//                    );
+//                    timeline.play();
                     break;
                 case TAB:
                     map.getPlayer().pickUpItem();
@@ -243,6 +259,65 @@ public class Main extends Application {
         vbox.setMinHeight(200);
         dialogStage.setScene(new Scene(vbox));
         dialogStage.show();
+    }
+
+    private void showReloadWindow(List<GameState> savedGameStates) {
+        reloadStage = new Stage();
+        reloadStage.setTitle("Dungeon Crawler by Adventurers - RELOAD");
+//        reloadStage.initModality(Modality.WINDOW_MODAL);  //It is works as a 'pop up' window by default...
+
+        //Create a new empty ObservableList and feed with the content of the incoming List
+        ObservableList<GameState> displayList = observableArrayList();
+        for(GameState gameState : savedGameStates) {
+            displayList.add(gameState);
+        }
+
+        var tableView = new TableView<GameState>(displayList);
+
+        var stateIdColumn = new TableColumn<GameState, Integer>("state id");
+        stateIdColumn.setMinWidth(70);
+        stateIdColumn.setCellValueFactory(new PropertyValueFactory<GameState, Integer>("id"));
+
+        var currentMapColumn = new TableColumn<GameState, Integer>("current map");
+        currentMapColumn.setMinWidth(110);
+        currentMapColumn.setCellValueFactory(new PropertyValueFactory<GameState, Integer>("currentMap"));
+
+        var savedAtColumn = new TableColumn<GameState, Timestamp>("saved at");
+        savedAtColumn.setMinWidth(440);
+        savedAtColumn.setCellValueFactory(new PropertyValueFactory<GameState, Timestamp>("savedAt"));
+
+        tableView.getColumns().add(stateIdColumn);
+        tableView.getColumns().add(currentMapColumn);
+        tableView.getColumns().add(savedAtColumn);
+
+        //Create reloadButton and binding methods in case of click
+        var reloadButton = new Button("Reload Game");
+        reloadButton.setOnAction(actionEvent -> {
+            int stateId = tableView.getSelectionModel().getSelectedItem().getId();
+            GameState gameState = dbManager.getGameState(stateId);
+            map = MapLoader.loadSavedMap(
+                    gameState,
+                    dbManager.getMapModel(gameState.getId()),
+                    dbManager.getCellModels(gameState.getId()),
+                    dbManager.getPlayerModel(gameState.getPlayerId()),
+                    dbManager.getItemsModels(gameState.getId())
+            );
+            reloadStage.close();
+            timeline.play();
+
+        });
+
+        //Create box which will use as main part of the Window
+        var box = new VBox();
+        box.setSpacing(5);
+        box.setPadding(new Insets(10, 10, 10, 10));
+        var scene = new Scene(box, 640, 480);
+        var elements = box.getChildren();
+        elements.addAll(tableView, reloadButton);
+
+        reloadStage.setScene(scene);
+        reloadStage.show();
+
     }
 
     private void refresh() {

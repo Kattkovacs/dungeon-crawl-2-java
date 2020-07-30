@@ -1,11 +1,12 @@
 package com.codecool.dungeoncrawl.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
 public class GameState extends BaseModel {
-    private Date savedAt;
+    private Timestamp savedAt;
     private int currentMap;
     private List<String> discoveredMaps = new ArrayList<>();
     private int playerId;
@@ -15,11 +16,11 @@ public class GameState extends BaseModel {
         this.playerId = playerId;
     }
 
-    public Date getSavedAt() {
+    public Timestamp getSavedAt() {
         return savedAt;
     }
 
-    public void setSavedAt(Date savedAt) {
+    public void setSavedAt(Timestamp savedAt) {
         this.savedAt = savedAt;
     }
 
