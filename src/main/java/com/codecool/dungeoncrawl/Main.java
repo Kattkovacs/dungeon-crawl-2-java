@@ -1,7 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
-import com.codecool.dungeoncrawl.dao.GameExportManager;
+import com.codecool.dungeoncrawl.dao.GameFileManager;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -211,13 +211,13 @@ public class Main extends Application {
                     break;
                 case E:
                     timeline.stop();
-                    GameExportManager exportManager = new GameExportManager(map);
+                    GameFileManager exportManager = new GameFileManager(map);
                     exportManager.exportGame();
                     timeline.play();
                     break;
                 case I:
                     timeline.stop();
-                    GameExportManager importManager = new GameExportManager(map);
+                    GameFileManager importManager = new GameFileManager(map);
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("Open exported game file");
                     File file = fileChooser.showOpenDialog(primaryStage);

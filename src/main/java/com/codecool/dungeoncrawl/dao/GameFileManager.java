@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GameExportManager {
+public class GameFileManager {
     private final ExportGameModel exportGameModel;
     private GameMap map;
 
-    public GameExportManager(GameMap map) {
+    public GameFileManager(GameMap map) {
         this.map = map;
         exportGameModel = new ExportGameModel();
     }
