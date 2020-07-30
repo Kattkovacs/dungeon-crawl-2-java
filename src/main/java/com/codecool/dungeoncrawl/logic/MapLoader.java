@@ -60,6 +60,8 @@ public class MapLoader {
 
         Player player = map.getPlayer();
         player.setMapLevel(gameState.getCurrentMap());
+        player.setHealth(playerModel.getHp());
+        player.setName(playerModel.getPlayerName());
         for (ItemsModel itemsModel: itemsModels) {
             for (int i = 0; i < itemsModel.getCount(); i++) {
                 player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
