@@ -7,9 +7,6 @@ import com.codecool.dungeoncrawl.util.Log;
 import com.codecool.dungeoncrawl.util.RandomUtil;
 import javafx.scene.paint.Color;
 
-import java.util.List;
-import java.util.Random;
-
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int baseHealth;

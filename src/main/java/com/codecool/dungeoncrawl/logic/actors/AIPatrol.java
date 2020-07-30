@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.util.RandomUtil;
 
 public abstract class AIPatrol extends AI {
 
