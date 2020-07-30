@@ -32,8 +32,10 @@ public class Tiles {
         tileMap.put("wall2", new Tile(6, 2));
         tileMap.put("floor1", new Tile(2, 0));
         tileMap.put("floor2", new Tile(5, 0));
-        tileMap.put("decor1", new Tile(3, 15));
-        tileMap.put("decor2", new Tile(14, 10));
+        tileMap.put("decor1a", new Tile(3, 15));
+        tileMap.put("decor1b", new Tile(4, 15));
+        tileMap.put("decor2a", new Tile(14, 10));
+        tileMap.put("decor2b", new Tile(15, 10));
         tileMap.put("column1", new Tile(12, 17));
         tileMap.put("column2", new Tile(1, 1));
         tileMap.put("exit1", new Tile(2, 6));
