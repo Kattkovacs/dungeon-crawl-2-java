@@ -1,7 +1,5 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.dao.GameStateDao;
-import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.model.*;

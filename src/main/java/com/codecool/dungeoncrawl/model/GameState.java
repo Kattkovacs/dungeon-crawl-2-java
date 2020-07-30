@@ -2,7 +2,6 @@ package com.codecool.dungeoncrawl.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class GameState extends BaseModel {
