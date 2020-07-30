@@ -9,7 +9,7 @@ public class Goliath extends AIStandStill {
 
     @Override
     public int setBaseHealth() {
-        return 10;
+        return 16;
     }
 
     @Override

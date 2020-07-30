@@ -14,7 +14,7 @@ public class Ghost extends AIGhostMove {
 
     @Override
     public int setBaseHealth() {
-        return 6;
+        return 14;
     }
 
     @Override
