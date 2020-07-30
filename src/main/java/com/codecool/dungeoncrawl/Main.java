@@ -288,18 +288,27 @@ public class Main extends Application {
                     dbManager.getPlayerModel(gameState.getPlayerId()),
                     dbManager.getItemsModels(gameState.getId())
             );
-            reloadStage.close();
-            timeline.play();
+            closePopUpWindow();
 
         });
 
+        //Create cancelButton and binding methods in case of click
+        var cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(actionEvent -> {
+            closePopUpWindow();
+        });
+
         //Create box which will use as main part of the Window
-        var box = new VBox();
-        box.setSpacing(5);
-        box.setPadding(new Insets(10, 10, 10, 10));
-        var scene = new Scene(box, 640, 480);
-        var elements = box.getChildren();
-        elements.addAll(tableView, reloadButton);
+        var hBox = new HBox();
+        hBox.setSpacing(5);
+        hBox.setPadding(new Insets(10, 10, 10, 10));
+        hBox.getChildren().addAll(reloadButton, cancelButton);
+        var vBox = new VBox();
+        vBox.setSpacing(5);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+        var scene = new Scene(vBox, 640, 480);
+        var elements = vBox.getChildren();
+        elements.addAll(tableView, hBox);
 
         reloadStage.setScene(scene);
         reloadStage.show();
@@ -370,6 +379,11 @@ public class Main extends Application {
             System.exit(1);
         }
         System.exit(0);
+    }
+
+    public void closePopUpWindow() {
+        reloadStage.close();
+        timeline.play();
     }
 
 }
