@@ -46,6 +46,22 @@ public class MapLoader {
         GameMap map = new GameMap(mapModel.getWidth(), mapModel.getHeight(), CellType.EMPTY);
         map.setStyle(mapModel.getStyle());
 
+        updateCells(cellModels, map);
+
+        Player player = map.getPlayer();
+        player.setMapLevel(gameState.getCurrentMap());
+        player.setHealth(playerModel.getHp());
+        player.setName(playerModel.getPlayerName());
+        for (ItemsModel itemsModel: itemsModels) {
+            for (int i = 0; i < itemsModel.getCount(); i++) {
+                player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
+            }
+        }
+        Main.logs.add(new Log("Game loaded successfully", Color.GREEN));
+        return map;
+    }
+
+    private static void updateCells(List<CellModel> cellModels, GameMap map) {
         for(CellModel cellModel : cellModels) {
             String actorName = cellModel.getActor();
             String itemName = cellModel.getItem();
@@ -58,18 +74,6 @@ public class MapLoader {
             }
             cellFactory(cellModel.getX(), cellModel.getY(), map, cellModel.getCellType(), null);
         }
-
-        Player player = map.getPlayer();
-        player.setMapLevel(gameState.getCurrentMap());
-        player.setHealth(playerModel.getHp());
-        player.setName(playerModel.getPlayerName());
-        for (ItemsModel itemsModel: itemsModels) {
-            for (int i = 0; i < itemsModel.getCount(); i++) {
-                player.loadItem(Item.itemFactory(itemsModel.getName(), player.getCell()));
-            }
-        }
-        Main.logs.add(new Log("Game loaded successfuly", Color.GREEN));
-        return map;
     }
 
     public static void cellFactory(int x, int y, GameMap map, String cellElement, Player player) {

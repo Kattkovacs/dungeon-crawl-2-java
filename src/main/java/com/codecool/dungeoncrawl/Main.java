@@ -301,20 +301,7 @@ public class Main extends Application {
         tableView.getColumns().add(savedAtColumn);
 
         //Create reloadButton and binding methods in case of click
-        var reloadButton = new Button("Reload Game");
-        reloadButton.setOnAction(actionEvent -> {
-            int stateId = tableView.getSelectionModel().getSelectedItem().getId();
-            GameState gameState = dbManager.getGameState(stateId);
-            map = MapLoader.loadSavedMap(
-                    gameState,
-                    dbManager.getMapModel(gameState.getId()),
-                    dbManager.getCellModels(gameState.getId()),
-                    dbManager.getPlayerModel(gameState.getPlayerId()),
-                    dbManager.getItemsModels(gameState.getId())
-            );
-            closePopUpWindow();
-
-        });
+        Button reloadButton = createReloadButton(tableView);
 
         //Create cancelButton and binding methods in case of click
         var cancelButton = new Button("Cancel");
@@ -337,6 +324,24 @@ public class Main extends Application {
         reloadStage.setScene(scene);
         reloadStage.show();
 
+    }
+
+    private Button createReloadButton(TableView<GameState> tableView) {
+        var reloadButton = new Button("Reload Game");
+        reloadButton.setOnAction(actionEvent -> {
+            int stateId = tableView.getSelectionModel().getSelectedItem().getId();
+            GameState gameState = dbManager.getGameState(stateId);
+            map = MapLoader.loadSavedMap(
+                    gameState,
+                    dbManager.getMapModel(gameState.getId()),
+                    dbManager.getCellModels(gameState.getId()),
+                    dbManager.getPlayerModel(gameState.getPlayerId()),
+                    dbManager.getItemsModels(gameState.getId())
+            );
+            closePopUpWindow();
+
+        });
+        return reloadButton;
     }
 
     private void refresh() {
